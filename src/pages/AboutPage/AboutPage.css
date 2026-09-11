@@ -80,6 +80,12 @@
   padding: 1rem 1.4rem;
   background: rgba(244, 238, 224, 0.06);
   border-left: 3px solid #d27a2c;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.dossier-quick-badge:hover {
+  transform: translateY(-1px);
+  border-color: #81b3b4;
 }
 
 .dossier-quick-badge img {
@@ -104,28 +110,37 @@
 
 .dossier-spec-strip {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  padding-top: 2rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 2.25rem;
 }
 
 .spec-item {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: 7.5rem;
+  padding: 1.2rem 1.1rem 1rem;
 }
 
 .spec-label {
   color: #81b3b4;
-  font-size: 0.62rem;
+  font-size: 0.63rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  margin-bottom: 0.55rem;
+  transition: color 0.2s ease;
+}
+
+.spec-item:hover .spec-label {
+  color: #d27a2c;
 }
 
 .spec-value {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.15rem;
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+  line-height: 1.2;
   color: #f4eee0;
 }
 
@@ -139,7 +154,14 @@
   display: grid;
   grid-template-columns: 1.25fr 0.95fr;
   gap: 4rem;
-  align-items: start;
+  align-items: stretch;
+}
+
+.timeline-column,
+.intel-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .section-badge {
@@ -175,6 +197,7 @@
   margin: 0;
   padding: 0;
   position: relative;
+  flex: 1;
 }
 
 .timeline-track::before {
@@ -197,7 +220,7 @@
   position: relative;
   display: flex;
   gap: 1.75rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .timeline-node {
@@ -307,13 +330,14 @@
 }
 
 .bonds-badge {
-  margin-top: 1rem;
+  margin-top: 1.75rem;
 }
 
 .relations-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex: 1;
 }
 
 .relation-item {
@@ -374,7 +398,7 @@
   grid-template-columns: auto 1fr;
   gap: 2rem;
   align-items: center;
-  margin: 4.5rem 0 0;
+  margin: 2.75rem 0 0;
   padding: 2.5rem 3rem;
   background: #d27a2c;
   color: #19354a;
@@ -417,7 +441,7 @@
   }
 
   .dossier-spec-strip {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dossier-title-row {
