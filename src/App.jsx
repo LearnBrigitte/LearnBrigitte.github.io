@@ -8,8 +8,13 @@ export default function App() {
     <div className="app-shell">
       <header className="site-header">
         <nav aria-label="Main navigation">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <NavLink className="wordmark" to="/" aria-label="Learn Brigitte home">
+            BRIGITTE <span>LINDHOLM</span>
+          </NavLink>
+          <div className="nav-links">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/about">About</NavLink>
+          </div>
         </nav>
       </header>
       <main>
