@@ -1,0 +1,36 @@
+/* 404 Not Found Page Styles */
+.not-found-page {
+  max-width: 48rem;
+  margin: 10rem auto 6rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.not-found-page h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #19354a;
+  margin-bottom: 1rem;
+}
+
+.not-found-page p {
+  color: #4e6676;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.return-home-link {
+  display: inline-block;
+  padding: 0.8rem 1.8rem;
+  background: #19354a;
+  color: #f4eee0;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.return-home-link:hover {
+  background: #d27a2c;
+}

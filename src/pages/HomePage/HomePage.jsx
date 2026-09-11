@@ -1,6 +1,7 @@
-import brigitteIcon from '../../Assets/Images/LandingPage/Brigitte-Icon.png'
-import shieldIcon from '../../Assets/Images/Icons/Shield.webp'
-import supportIcon from '../../Assets/Images/Icons/Support_icon.png'
+import './HomePage.css'
+import brigitteIcon from '../../../Assets/Images/LandingPage/Brigitte-Icon.png'
+import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
+import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 
 export function HomePage() {
   return (
