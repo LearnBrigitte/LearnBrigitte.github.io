@@ -24,7 +24,7 @@ export function AboutPage() {
             <div className="dossier-quick-badge">
               <img src={supportIcon} alt="" />
               <div>
-                <strong>Support / Vanguard</strong>
+                <strong>Support / Survivor</strong>
                 <span>Ironclad Guild Engineer</span>
               </div>
             </div>
