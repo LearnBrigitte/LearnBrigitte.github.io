@@ -1,11 +1,22 @@
+import { useEffect } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage/AboutPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
 
+const routeTitles = {
+  '/': 'Brigitte Lindholm',
+  '/about': 'About Brigitte',
+}
+
 export default function App() {
   const location = useLocation()
   const isAboutPage = location.pathname === '/about'
+
+  useEffect(() => {
+    const nextTitle = routeTitles[location.pathname] || 'Brigitte Lindholm'
+    document.title = nextTitle
+  }, [location.pathname])
 
   return (
     <div className="app-shell">

@@ -11,11 +11,85 @@
 
 body {
   margin: 0;
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 a {
   color: inherit;
   font: inherit;
+}
+
+main > * {
+  animation: fadeInUp 0.6s ease-out both, pageSlideIn 0.6s ease-out both;
+}
+
+.site-header,
+.site-footer {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.wordmark,
+.nav-links a,
+.tag-pill,
+.spec-item,
+.timeline-card,
+.schematic-item,
+.relation-item,
+.fact-item,
+.author-card,
+.hero-info,
+.hero-portrait-stage,
+.footer-brand {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+.wordmark:hover,
+.nav-links a:hover,
+.tag-pill:hover,
+.spec-item:hover,
+.timeline-card:hover,
+.schematic-item:hover,
+.relation-item:hover,
+.fact-item:hover,
+.author-card:hover,
+.hero-info:hover,
+.hero-portrait-stage:hover,
+.footer-brand:hover {
+  transform: translateY(-2px);
 }
 
 h1, h2, p {
@@ -117,5 +191,13 @@ h1, h2 {
   .site-footer {
     flex-direction: column;
     padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }
