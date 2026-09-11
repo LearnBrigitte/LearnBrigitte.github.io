@@ -1,5 +1,5 @@
 import { UsersRound } from 'lucide-react'
-import brigitteIcon from '../../Assets/Images/Landingpage/Brigitte-Icon.png'
+import brigitteIcon from '../../Assets/Images/LandingPage/Brigitte-Icon.png'
 import shieldIcon from '../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../Assets/Images/Icons/Support_icon.png'
 
