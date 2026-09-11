@@ -1,4 +1,3 @@
-import { UsersRound } from 'lucide-react'
 import brigitteIcon from '../../Assets/Images/LandingPage/Brigitte-Icon.png'
 import shieldIcon from '../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../Assets/Images/Icons/Support_icon.png'
@@ -39,7 +38,6 @@ export function HomePage() {
       </section>
 
       <section className="authors" aria-labelledby="authors-title">
-        <div className="authors-mark" aria-hidden="true"><UsersRound size={36} strokeWidth={1.5} /></div>
         <div className="authors-copy">
           <p className="eyebrow">About the authors</p>
           <h2 id="authors-title">The people<br />behind the shield.</h2>
