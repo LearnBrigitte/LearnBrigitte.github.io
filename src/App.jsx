@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage/AboutPage.jsx'
+import { HeroInfoPage } from './pages/HeroInfoPage/HeroInfoPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
 import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
@@ -8,11 +9,12 @@ import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
 const routeTitles = {
   '/': 'Brigitte Lindholm',
   '/about': 'About Brigitte',
+  '/hero-info': 'Hero Information',
 }
 
 export default function App() {
   const location = useLocation()
-  const isAboutPage = location.pathname === '/about'
+  const isDarkHeader = location.pathname === '/about' || location.pathname === '/hero-info'
   const previousPathRef = useRef(location.pathname)
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <header className={`site-header ${isAboutPage ? 'header-light-text' : ''}`}>
+      <header className={`site-header ${isDarkHeader ? 'header-light-text' : ''}`}>
         <nav aria-label="Main navigation">
           <NavLink className="wordmark" to="/" aria-label="Learn Brigitte home">
             BRIGITTE <span>LINDHOLM</span>
@@ -51,6 +53,7 @@ export default function App() {
           <div className="nav-links">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/about">About</NavLink>
+            <NavLink to="/hero-info">Hero Info</NavLink>
           </div>
         </nav>
       </header>
@@ -58,6 +61,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/hero-info" element={<HeroInfoPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
