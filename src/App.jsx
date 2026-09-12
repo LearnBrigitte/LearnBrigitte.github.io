@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage/AboutPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
+import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
 
 const routeTitles = {
   '/': 'Brigitte Lindholm',
@@ -12,10 +13,32 @@ const routeTitles = {
 export default function App() {
   const location = useLocation()
   const isAboutPage = location.pathname === '/about'
+  const previousPathRef = useRef(location.pathname)
 
   useEffect(() => {
     const nextTitle = routeTitles[location.pathname] || 'Brigitte Lindholm'
     document.title = nextTitle
+  }, [location.pathname])
+
+  useEffect(() => {
+    const previousPath = previousPathRef.current
+    const isHomeToAboutTransition = location.pathname === '/about' && previousPath === '/'
+
+    if (isHomeToAboutTransition) {
+      const hasPlayedHomeToAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
+
+      if (hasPlayedHomeToAboutSound) {
+        previousPathRef.current = location.pathname
+        return
+      }
+
+      const audio = new Audio(introSound)
+      audio.volume = 0.15
+      audio.play().catch(() => {})
+      sessionStorage.setItem('brigitteAboutIntroPlayed', 'true')
+    }
+
+    previousPathRef.current = location.pathname
   }, [location.pathname])
 
   return (

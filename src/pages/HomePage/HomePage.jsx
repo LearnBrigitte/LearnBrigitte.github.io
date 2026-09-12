@@ -1,45 +1,9 @@
-import { useEffect } from 'react'
 import './HomePage.css'
 import brigitteIcon from '../../../Assets/Images/LandingPage/Brigitte-Icon.png'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
-import introSound from '../../../Assets/Sounds/IntroSound/Intro_Sound.mp3'
 
 export function HomePage() {
-  useEffect(() => {
-    if (sessionStorage.getItem('brigitteIntroPlayed') === 'true') {
-      return
-    }
-
-    const audio = new Audio(introSound)
-    audio.volume = 0.1
-    audio.preload = 'auto'
-
-    const playSound = () => {
-      if (sessionStorage.getItem('brigitteIntroPlayed') === 'true') {
-        return
-      }
-
-      audio.currentTime = 0
-      audio.play().catch(() => {})
-      sessionStorage.setItem('brigitteIntroPlayed', 'true')
-    }
-
-    const handleFirstInteraction = () => {
-      playSound()
-      window.removeEventListener('pointerdown', handleFirstInteraction)
-      window.removeEventListener('keydown', handleFirstInteraction)
-    }
-
-    window.addEventListener('pointerdown', handleFirstInteraction)
-    window.addEventListener('keydown', handleFirstInteraction)
-
-    return () => {
-      window.removeEventListener('pointerdown', handleFirstInteraction)
-      window.removeEventListener('keydown', handleFirstInteraction)
-    }
-  }, [])
-
   return (
     <>
       <section className="landing-hero" aria-labelledby="hero-title">
