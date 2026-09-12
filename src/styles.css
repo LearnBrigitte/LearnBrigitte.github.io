@@ -24,34 +24,105 @@ body {
   }
 }
 
-@keyframes tacticalReveal {
+@keyframes contentBootReveal {
   0% {
     opacity: 0;
-    clip-path: inset(0 100% 0 0);
-    transform: translateX(-10px);
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(14px) scale(0.98);
   }
 
-  55% {
+  10% {
     opacity: 1;
+  }
+
+  16% {
+    opacity: 0.4;
+  }
+
+  22% {
+    opacity: 1;
+  }
+
+  60% {
+    clip-path: inset(20% 0 0 0);
   }
 
   100% {
     opacity: 1;
     clip-path: inset(0 0 0 0);
-    transform: translateX(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes shieldFlash {
-  0% {
+@keyframes contentGlitchJitter {
+  0%,
+  100% {
     opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  4% {
+    opacity: 0.9;
+    transform: translate3d(-6%, 0, 0);
   }
 
   8% {
-    opacity: 0.9;
+    transform: translate3d(4%, 0, 0);
   }
 
-  22% {
+  12% {
+    transform: translate3d(-3%, 0, 0);
+  }
+
+  16% {
+    opacity: 0.6;
+    transform: translate3d(2%, 0, 0);
+  }
+
+  20% {
+    opacity: 0;
+  }
+}
+
+@keyframes contentIconGlint {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-15deg);
+    filter: drop-shadow(0 0 0 rgba(210, 122, 44, 0));
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(1.15) rotate(3deg);
+    filter: drop-shadow(0 0 10px rgba(210, 122, 44, 0.7));
+  }
+
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(210, 122, 44, 0));
+  }
+}
+
+@keyframes rallyPulseFlash {
+  0% {
+    opacity: 0;
+    background: radial-gradient(circle at center, rgba(210, 122, 44, 0.55) 0%, rgba(129, 179, 180, 0.25) 45%, transparent 75%);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  30% {
     opacity: 0;
   }
 
@@ -60,44 +131,40 @@ body {
   }
 }
 
-@keyframes shieldBurstRing {
+@keyframes rallyDiamondBurst {
   0% {
-    transform: translate3d(-50%, -50%, 0) scale(0);
+    transform: translate3d(-50%, -50%, 0) rotate(45deg) scale(0);
     opacity: 1;
-    border-width: 5vmax;
+    border-width: 4vmax;
   }
 
   70% {
-    opacity: 0.9;
-    border-width: 0.3vmax;
+    opacity: 0.85;
+    border-width: 0.25vmax;
   }
 
   100% {
-    transform: translate3d(-50%, -50%, 0) scale(1);
+    transform: translate3d(-50%, -50%, 0) rotate(135deg) scale(1);
     opacity: 0;
     border-width: 0;
   }
 }
 
-@keyframes shieldColorCycle {
+@keyframes rallyColorCycle {
   0% {
-    filter: drop-shadow(0 0 10px rgba(210, 122, 44, 0.7)) hue-rotate(0deg) saturate(1.4) brightness(1.1);
+    filter: drop-shadow(0 0 12px rgba(210, 122, 44, 0.8)) hue-rotate(0deg) saturate(1.6) brightness(1.2);
   }
 
-  20% {
-    filter: drop-shadow(0 0 12px rgba(129, 179, 180, 0.7)) hue-rotate(80deg) saturate(1.6) brightness(1.2);
+  25% {
+    filter: drop-shadow(0 0 14px rgba(129, 179, 180, 0.8)) hue-rotate(100deg) saturate(1.8) brightness(1.3);
   }
 
-  40% {
-    filter: drop-shadow(0 0 12px rgba(25, 53, 74, 0.7)) hue-rotate(160deg) saturate(1.6) brightness(1.2);
+  50% {
+    filter: drop-shadow(0 0 14px rgba(25, 53, 74, 0.8)) hue-rotate(200deg) saturate(1.8) brightness(1.3);
   }
 
-  60% {
-    filter: drop-shadow(0 0 12px rgba(210, 122, 44, 0.7)) hue-rotate(240deg) saturate(1.6) brightness(1.2);
-  }
-
-  80% {
-    filter: drop-shadow(0 0 10px rgba(129, 179, 180, 0.7)) hue-rotate(320deg) saturate(1.4) brightness(1.1);
+  75% {
+    filter: drop-shadow(0 0 12px rgba(210, 122, 44, 0.8)) hue-rotate(300deg) saturate(1.6) brightness(1.2);
   }
 
   100% {
@@ -105,17 +172,18 @@ body {
   }
 }
 
-@keyframes shieldEmblemPop {
+@keyframes rallyEmblemPop {
   0% {
-    transform: translate3d(-50%, -50%, 0) scale(0.2) rotate(-25deg);
+    transform: translate3d(-50%, -50%, 0) scale(0.15) rotate(-180deg);
     opacity: 0;
   }
-  30% {
-    transform: translate3d(-50%, -50%, 0) scale(1.15) rotate(4deg);
+
+  35% {
+    transform: translate3d(-50%, -50%, 0) scale(1.2) rotate(10deg);
     opacity: 1;
   }
 
-  50% {
+  55% {
     transform: translate3d(-50%, -50%, 0) scale(1) rotate(0deg);
     opacity: 1;
   }
@@ -126,7 +194,7 @@ body {
   }
 
   100% {
-    transform: translate3d(-50%, -50%, 0) scale(1.4) rotate(0deg);
+    transform: translate3d(-50%, -50%, 0) scale(1.5) rotate(0deg);
     opacity: 0;
   }
 }
@@ -142,21 +210,19 @@ body {
 .page-transition-flash {
   position: absolute;
   inset: 0;
-  background: #f4eee0;
-  animation: shieldFlash 0.9s ease-out both;
+  animation: rallyPulseFlash 0.9s ease-out both;
 }
 
 .page-transition-ring {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 12vmax;
-  height: 12vmax;
-  border-radius: 50%;
+  width: 11vmax;
+  height: 11vmax;
   border-style: solid;
   box-sizing: border-box;
   will-change: transform, opacity, border-width;
-  animation: shieldBurstRing 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation: rallyDiamondBurst 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
 .page-transition-ring.ring-1 {
@@ -165,8 +231,8 @@ body {
 }
 
 .page-transition-ring.ring-2 {
-  width: 8vmax;
-  height: 8vmax;
+  width: 7.5vmax;
+  height: 7.5vmax;
   border-color: #81b3b4;
   animation-delay: 0.08s;
 }
@@ -185,7 +251,7 @@ body {
   width: 3.5rem;
   height: 3.5rem;
   will-change: transform, opacity;
-  animation: shieldEmblemPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: rallyEmblemPop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .page-transition-emblem img {
@@ -193,7 +259,7 @@ body {
   height: 100%;
   object-fit: contain;
   will-change: filter;
-  animation: shieldColorCycle 0.9s linear both;
+  animation: rallyColorCycle 0.9s linear both;
 }
 
 a {
@@ -202,7 +268,34 @@ a {
 }
 
 .app-shell:not(.page-fade-disabled) main > * {
-  animation: tacticalReveal 0.65s cubic-bezier(0.65, 0, 0.35, 1) both;
+  position: relative;
+  animation: contentBootReveal 0.75s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.app-shell:not(.page-fade-disabled) main > *::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  height: 14%;
+  background: linear-gradient(90deg, rgba(210, 122, 44, 0.5), rgba(129, 179, 180, 0.35));
+  mix-blend-mode: difference;
+  pointer-events: none;
+  animation: contentGlitchJitter 0.75s steps(2, jump-end) both;
+}
+
+.app-shell:not(.page-fade-disabled) main > *::after {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  background: url(../Assets/HeroInfo/icons/kit/Barrier_Shield.webp) center / contain no-repeat;
+  pointer-events: none;
+  animation: contentIconGlint 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 0.1s;
 }
 
 .site-header,

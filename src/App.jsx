@@ -5,7 +5,7 @@ import { HeroInfoPage } from './pages/HeroInfoPage/HeroInfoPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
 import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
-import shieldIcon from '../Assets/Images/Icons/Shield.webp'
+import rallyIcon from '../Assets/HeroInfo/icons/kit/Rally.webp'
 
 // Toggle to test the flashy page transition; set to false to disable it.
 const FLASHY_PAGE_TRANSITIONS_ENABLED = true
@@ -75,7 +75,7 @@ export default function App() {
           <span className="page-transition-ring ring-2" />
           <span className="page-transition-ring ring-3" />
           <span className="page-transition-emblem">
-            <img src={shieldIcon} alt="" />
+            <img src={rallyIcon} alt="" />
           </span>
         </div>
       )}
