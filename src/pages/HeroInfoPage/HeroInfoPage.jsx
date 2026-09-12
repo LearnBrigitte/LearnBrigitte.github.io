@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { kit, AbilityTags, Perks, Removed } from './kit.js'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
@@ -23,6 +24,15 @@ import whiplashIcon from '../../../Assets/HeroInfo/icons/perks/major/Perk_Whipla
 import barrierRestorationIcon from '../../../Assets/HeroInfo/icons/perks/removed/Perk_BarrierRestoration.webp'
 import quickFixIcon from '../../../Assets/HeroInfo/icons/perks/removed/Perk_QuickFix.webp'
 
+// Ability Demo Videos
+import rocketFlailVideo from '../../../Assets/HeroInfo/videos/Rocket_Flail.mp4'
+import barrierShieldVideo from '../../../Assets/HeroInfo/videos/Barrier_Shield.mp4'
+import repairPackVideo from '../../../Assets/HeroInfo/videos/Repair_Pack.mp4'
+import whipShotVideo from '../../../Assets/HeroInfo/videos/Whip_Shot.mp4'
+import shieldBashVideo from '../../../Assets/HeroInfo/videos/Shield_Bash.mp4'
+import rallyVideo from '../../../Assets/HeroInfo/videos/Rally.mp4'
+import inspireVideo from '../../../Assets/HeroInfo/videos/Inspire.mp4'
+
 import './HeroInfoPage.css'
 
 const abilityIconMap = {
@@ -45,8 +55,47 @@ const perkIconMap = {
   'Quick Fix': quickFixIcon,
 }
 
+const abilityVideoMap = {
+  'Rocket Flail': rocketFlailVideo,
+  'Barrier Shield': barrierShieldVideo,
+  'Repair Pack': repairPackVideo,
+  'Whip Shot': whipShotVideo,
+  'Shield Bash': shieldBashVideo,
+  Rally: rallyVideo,
+  Inspire: inspireVideo,
+}
+
+// Small clicking-mouse glyph used as the "click me" hint on playable cards.
+function ClickPointerIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M9 3.5 19 13l-4.2.6 2.4 4.9-2.3 1.1-2.4-4.9L9.8 18 9 3.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
 export function HeroInfoPage() {
   const [selectedTag, setSelectedTag] = useState(null)
+  const [activeVideo, setActiveVideo] = useState(null)
+
+  useEffect(() => {
+    document.body.style.overflow = activeVideo ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [activeVideo])
+
+  const openAbilityVideo = (name) => {
+    const src = abilityVideoMap[name]
+    if (src) {
+      setActiveVideo({ name, src })
+    }
+  }
+
+  const closeAbilityVideo = () => setActiveVideo(null)
 
   const heroStats = kit.find((item) => item.type === 'Hero Stats')
   const weapons = kit.filter((item) => item.type.includes('Weapon'))
@@ -181,6 +230,7 @@ export function HeroInfoPage() {
           {activeAbilities.map((item, index) => {
             const isUltimate = item.type === 'Ultimate Ability'
             const isWeapon = item.type.includes('Weapon')
+            const hasVideo = Boolean(abilityVideoMap[item.name])
 
             // Extract dynamic metrics
             const stats = Object.entries(item).filter(
@@ -190,8 +240,26 @@ export function HeroInfoPage() {
             return (
               <article
                 key={index}
-                className={`ability-card ${isUltimate ? 'card-ultimate' : ''} ${isWeapon ? 'card-weapon' : ''}`}
+                className={`ability-card ${isUltimate ? 'card-ultimate' : ''} ${isWeapon ? 'card-weapon' : ''} ${hasVideo ? 'has-video' : ''}`}
+                {...(hasVideo && {
+                  role: 'button',
+                  tabIndex: 0,
+                  onClick: () => openAbilityVideo(item.name),
+                  onKeyDown: (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      openAbilityVideo(item.name)
+                    }
+                  },
+                })}
               >
+                {hasVideo && (
+                  <span className="click-hint">
+                    <ClickPointerIcon />
+                    Click to Watch
+                  </span>
+                )}
+
                 <div className="ability-card-top">
                   <div className="ability-header-group">
                     <div className="ability-icon-slot">
@@ -233,7 +301,10 @@ export function HeroInfoPage() {
                           key={tag}
                           type="button"
                           className={`tag-chip ${selectedTag === tag ? 'active-tag' : ''}`}
-                          onClick={() => handleTagClick(tag)}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            handleTagClick(tag)
+                          }}
                           title={`Click to jump to tag: ${tag}`}
                         >
                           {tag}
@@ -258,12 +329,31 @@ export function HeroInfoPage() {
             const stats = Object.entries(item).filter(
               ([key]) => !ignoredStatKeys.includes(key)
             )
+            const hasVideo = Boolean(abilityVideoMap[item.name])
 
             return (
               <article
                 key={index}
-                className="ability-card card-passive"
+                className={`ability-card card-passive ${hasVideo ? 'has-video' : ''}`}
+                {...(hasVideo && {
+                  role: 'button',
+                  tabIndex: 0,
+                  onClick: () => openAbilityVideo(item.name),
+                  onKeyDown: (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      openAbilityVideo(item.name)
+                    }
+                  },
+                })}
               >
+                {hasVideo && (
+                  <span className="click-hint">
+                    <ClickPointerIcon />
+                    Click to Watch
+                  </span>
+                )}
+
                 <div className="ability-card-top">
                   <div className="ability-header-group">
                     <div className="ability-icon-slot">
@@ -305,7 +395,10 @@ export function HeroInfoPage() {
                           key={tag}
                           type="button"
                           className={`tag-chip ${selectedTag === tag ? 'active-tag' : ''}`}
-                          onClick={() => handleTagClick(tag)}
+                          onClick={(event) => {
+                            event.stopPropagation()
+                            handleTagClick(tag)
+                          }}
                           title={`Click to jump to tag: ${tag}`}
                         >
                           {tag}
@@ -494,6 +587,36 @@ export function HeroInfoPage() {
         <span>HERO SPECIFICATION // BL-KIT</span>
         <span>EST. 2026</span>
       </footer>
+
+      {activeVideo && createPortal(
+        <div
+          className="video-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeVideo.name} demonstration video`}
+          onClick={closeAbilityVideo}
+        >
+          <div className="video-modal" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="video-modal-close"
+              onClick={closeAbilityVideo}
+              aria-label="Close video"
+            >
+              &times;
+            </button>
+            <h3 className="video-modal-title">{activeVideo.name}</h3>
+            <video
+              className="video-modal-player"
+              src={activeVideo.src}
+              controls
+              autoPlay
+              playsInline
+            />
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

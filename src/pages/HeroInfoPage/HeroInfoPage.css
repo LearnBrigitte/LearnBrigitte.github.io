@@ -186,6 +186,7 @@
 }
 
 .ability-card {
+  position: relative;
   background: #fff;
   border: 1px solid rgba(25, 53, 74, 0.12);
   border-left: 4px solid #19354a;
@@ -194,6 +195,60 @@
   flex-direction: column;
   justify-content: flex-start;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-left-color 0.25s ease;
+}
+
+.ability-card.has-video {
+  cursor: pointer;
+}
+
+.ability-card.has-video:focus-visible {
+  outline: 2px solid #d27a2c;
+  outline-offset: 2px;
+}
+
+.click-hint {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #81b3b4;
+  background: rgba(25, 53, 74, 0.08);
+  border: 1px solid rgba(25, 53, 74, 0.15);
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-ultimate .click-hint {
+  color: #d27a2c;
+  background: rgba(210, 122, 44, 0.08);
+  border-color: rgba(210, 122, 44, 0.25);
+}
+
+.click-hint svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.ability-card.has-video:hover .click-hint,
+.ability-card.has-video:focus-visible .click-hint {
+  color: #f4eee0;
+  background: rgba(25, 53, 74, 0.9);
+  border-color: transparent;
+}
+
+.card-ultimate.has-video:hover .click-hint,
+.card-ultimate.has-video:focus-visible .click-hint {
+  color: #19354a;
+  background: rgba(210, 122, 44, 0.92);
+  border-color: transparent;
 }
 
 .ability-card-top {
@@ -789,5 +844,77 @@
 
   .abilities-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Ability Demo Video Modal */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(12, 20, 28, 0.9);
+}
+
+.video-modal {
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  background: #19354a;
+  border: 2px solid #d27a2c;
+  padding: 1.6rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.video-modal-title {
+  margin: 0 0 1rem;
+  color: #f4eee0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.4rem;
+}
+
+.video-modal-player {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  background: #000;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: -0.9rem;
+  right: -0.9rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: none;
+  background: #d27a2c;
+  color: #19354a;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.video-modal-close:hover {
+  transform: scale(1.08);
+  background: #b8621b;
+}
+
+@media (max-width: 600px) {
+  .video-modal {
+    padding: 1.1rem;
+  }
+
+  .video-modal-close {
+    top: -0.7rem;
+    right: -0.7rem;
   }
 }
