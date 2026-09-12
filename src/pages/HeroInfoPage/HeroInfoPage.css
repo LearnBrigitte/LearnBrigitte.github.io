@@ -848,6 +848,50 @@
 }
 
 /* Ability Demo Video Modal */
+@keyframes videoModalOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes videoModalOverlayOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes videoModalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(14px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes videoModalPopOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+}
+
 .video-modal-overlay {
   position: fixed;
   inset: 0;
@@ -857,6 +901,11 @@
   justify-content: center;
   padding: 2rem;
   background: rgba(12, 20, 28, 0.9);
+  animation: videoModalOverlayIn 0.22s ease-out both;
+}
+
+.video-modal-overlay.video-modal-closing {
+  animation: videoModalOverlayOut 0.22s ease-in both;
 }
 
 .video-modal {
@@ -867,6 +916,11 @@
   border: 2px solid #d27a2c;
   padding: 1.6rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: videoModalPopIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.video-modal-overlay.video-modal-closing .video-modal {
+  animation: videoModalPopOut 0.2s ease-in both;
 }
 
 .video-modal-title {

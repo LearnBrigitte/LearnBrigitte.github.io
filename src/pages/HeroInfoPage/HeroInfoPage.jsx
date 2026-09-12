@@ -80,6 +80,7 @@ function ClickPointerIcon() {
 export function HeroInfoPage() {
   const [selectedTag, setSelectedTag] = useState(null)
   const [activeVideo, setActiveVideo] = useState(null)
+  const [isVideoClosing, setIsVideoClosing] = useState(false)
 
   useEffect(() => {
     document.body.style.overflow = activeVideo ? 'hidden' : ''
@@ -92,10 +93,23 @@ export function HeroInfoPage() {
     const src = abilityVideoMap[name]
     if (src) {
       setActiveVideo({ name, src })
+      setIsVideoClosing(false)
     }
   }
 
-  const closeAbilityVideo = () => setActiveVideo(null)
+  // Delay unmounting until the exit animation finishes.
+  const closeAbilityVideo = () => setIsVideoClosing(true)
+
+  useEffect(() => {
+    if (!isVideoClosing) return
+
+    const timeoutId = setTimeout(() => {
+      setActiveVideo(null)
+      setIsVideoClosing(false)
+    }, 220)
+
+    return () => clearTimeout(timeoutId)
+  }, [isVideoClosing])
 
   const heroStats = kit.find((item) => item.type === 'Hero Stats')
   const weapons = kit.filter((item) => item.type.includes('Weapon'))
@@ -590,7 +604,7 @@ export function HeroInfoPage() {
 
       {activeVideo && createPortal(
         <div
-          className="video-modal-overlay"
+          className={`video-modal-overlay ${isVideoClosing ? 'video-modal-closing' : ''}`}
           role="dialog"
           aria-modal="true"
           aria-label={`${activeVideo.name} demonstration video`}
