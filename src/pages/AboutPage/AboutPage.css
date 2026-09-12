@@ -92,6 +92,12 @@
   width: 2rem;
   height: 2rem;
   object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.dossier-quick-badge:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(78%) saturate(698%) hue-rotate(345deg) brightness(93%) contrast(96%);
 }
 
 .dossier-quick-badge strong {
