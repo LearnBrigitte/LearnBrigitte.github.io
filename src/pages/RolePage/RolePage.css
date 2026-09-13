@@ -118,7 +118,7 @@
   border-top: 3px solid #19354a;
   text-decoration: none;
   color: #19354a;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, border-top-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .role-card:hover {
