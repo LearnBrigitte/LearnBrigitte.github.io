@@ -96,10 +96,11 @@ export default function App() {
 
     if (isAboutNavigation) {
       const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
+      // const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'false'
 
       if (!hasPlayedAboutSound) {
         const audio = new Audio(introSound)
-        audio.volume = 0.15
+        audio.volume = 0.075 // volume control
         audio.play().catch(() => {})
         sessionStorage.setItem('brigitteAboutIntroPlayed', 'true')
       }
