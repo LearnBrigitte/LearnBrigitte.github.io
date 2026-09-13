@@ -1,0 +1,193 @@
+/* Role Roster Page - Basics Section */
+.role-page {
+  background: #f4eee0;
+  min-height: 100vh;
+}
+
+.role-banner {
+  background-color: #19354a;
+  color: #f4eee0;
+  padding: 6.5rem max(2rem, calc((100vw - 76rem) / 2)) 3.5rem;
+  border-bottom: 3px solid #d27a2c;
+  background-image:
+    radial-gradient(circle at 85% 20%, rgba(129, 179, 180, 0.12) 0%, transparent 50%),
+    repeating-linear-gradient(90deg, transparent 0, transparent 4.9rem, rgba(129, 179, 180, 0.04) 4.9rem, rgba(129, 179, 180, 0.04) 5rem);
+}
+
+.role-banner-inner {
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.role-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.role-tag-pill {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background: rgba(244, 238, 224, 0.08);
+  border: 1px solid rgba(129, 179, 180, 0.35);
+  color: #81b3b4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.role-tag-pill.role-status-tag {
+  border-color: #d27a2c;
+  color: #d27a2c;
+  background: rgba(210, 122, 44, 0.12);
+}
+
+.role-pretitle {
+  margin: 0 0 0.5rem;
+  color: #d27a2c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.role-main-title {
+  margin: 0 0 0.75rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  line-height: 1;
+}
+
+.role-subtitle {
+  margin: 0;
+  color: #81b3b4;
+  font-size: 0.95rem;
+}
+
+.role-section-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 2.25rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #19354a;
+  transition: border-color 0.25s ease;
+}
+
+.role-section-badge:hover {
+  border-color: #d27a2c;
+}
+
+.role-section-badge span {
+  color: #d27a2c;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.role-section-badge h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #19354a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.role-content {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 5rem;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  gap: 1.25rem;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.9rem;
+  padding: 1.75rem 1.25rem 1.4rem;
+  background: #fff;
+  border: 1px solid rgba(25, 53, 74, 0.12);
+  border-top: 3px solid #19354a;
+  text-decoration: none;
+  color: #19354a;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  border-top-color: #d27a2c;
+  box-shadow: 0 10px 28px rgba(25, 53, 74, 0.1);
+}
+
+.role-card-icon-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f4eee0 0%, #ffffff 100%);
+  border: 2px solid rgba(25, 53, 74, 0.15);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 4px #fff;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.role-card:hover .role-card-icon-frame {
+  border-color: #d27a2c;
+  transform: scale(1.06);
+}
+
+.role-card-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.role-card-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.15rem;
+}
+
+.role-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #81b3b4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.role-card:hover .role-card-cta {
+  opacity: 1;
+  transform: translateY(0);
+  color: #d27a2c;
+}
+
+.role-card-arrow {
+  transition: transform 0.2s ease;
+}
+
+.role-card:hover .role-card-arrow {
+  transform: translateX(3px);
+}
+
+@media (max-width: 600px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+}

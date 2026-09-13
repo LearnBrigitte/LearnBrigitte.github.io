@@ -572,7 +572,6 @@ export function HeroInfoPage() {
                 key={idx}
                 id={tagAnchorId}
                 className={`glossary-card ${isHighlighted ? 'glossary-card-highlight' : ''}`}
-                onClick={() => setSelectedTag(isHighlighted ? null : tagItem.name)}
               >
                 <div className="glossary-header">
                   <span className="glossary-tag-name">{tagItem.name}</span>

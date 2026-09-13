@@ -3,7 +3,10 @@ import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage/AboutPage.jsx'
 import { HeroInfoPage } from './pages/HeroInfoPage/HeroInfoPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
+import { RolePage } from './pages/RolePage/RolePage.jsx'
+import { HeroPage } from './pages/HeroPage/HeroPage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
+import { ROLE_LABELS, ROSTER_BY_ROLE } from './data/roster.js'
 import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
 import rallyIcon from '../Assets/HeroInfo/icons/kit/Rally.webp'
 
@@ -19,16 +22,58 @@ const routeTitles = {
   '/hero-info': 'Hero Information',
 }
 
+// Resolves the tab title for routes that aren't in the static map above (e.g. /basics/*).
+function resolveDocumentTitle(pathname) {
+  if (routeTitles[pathname]) {
+    return routeTitles[pathname]
+  }
+
+  const basicsMatch = pathname.match(/^\/basics\/([^/]+)(?:\/([^/]+))?$/)
+  if (basicsMatch) {
+    const [, role, heroSlug] = basicsMatch
+    const roleLabel = ROLE_LABELS[role]
+    if (!roleLabel) {
+      return 'Brigitte Lindholm'
+    }
+    if (!heroSlug) {
+      return `${roleLabel} // Basics`
+    }
+    const hero = ROSTER_BY_ROLE[role]?.find((item) => item.slug === heroSlug)
+    return hero ? `${hero.name} // Basics` : 'Brigitte Lindholm'
+  }
+
+  return 'Brigitte Lindholm'
+}
+
 export default function App() {
   const location = useLocation()
-  const isDarkHeader = location.pathname === '/about' || location.pathname === '/hero-info'
+  const isDarkHeader =
+    location.pathname === '/about' ||
+    location.pathname === '/hero-info' ||
+    location.pathname.startsWith('/basics')
   const previousPathRef = useRef(location.pathname)
   const [isPageTransitioning, setIsPageTransitioning] = useState(false)
+  const [isBasicsMenuOpen, setIsBasicsMenuOpen] = useState(false)
+  const basicsMenuRef = useRef(null)
 
   useEffect(() => {
-    const nextTitle = routeTitles[location.pathname] || 'Brigitte Lindholm'
-    document.title = nextTitle
+    document.title = resolveDocumentTitle(location.pathname)
   }, [location.pathname])
+
+  useEffect(() => {
+    setIsBasicsMenuOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (basicsMenuRef.current && !basicsMenuRef.current.contains(event.target)) {
+        setIsBasicsMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => document.removeEventListener('mousedown', handleOutsideClick)
+  }, [])
 
   useEffect(() => {
     if (!FLASHY_PAGE_TRANSITIONS_ENABLED) {
@@ -88,6 +133,25 @@ export default function App() {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/hero-info">Hero Info</NavLink>
+            <div className="nav-dropdown" ref={basicsMenuRef}>
+              <button
+                type="button"
+                className={`nav-dropdown-trigger ${location.pathname.startsWith('/basics') ? 'active' : ''}`}
+                onClick={() => setIsBasicsMenuOpen((open) => !open)}
+                aria-expanded={isBasicsMenuOpen}
+                aria-haspopup="true"
+              >
+                Basics
+                <span className="nav-dropdown-caret">▾</span>
+              </button>
+              {isBasicsMenuOpen && (
+                <div className="nav-dropdown-menu">
+                  <NavLink to="/basics/tanks">Tanks</NavLink>
+                  <NavLink to="/basics/dps">DPS</NavLink>
+                  <NavLink to="/basics/supports">Supports</NavLink>
+                </div>
+              )}
+            </div>
           </div>
         </nav>
       </header>
@@ -96,6 +160,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/hero-info" element={<HeroInfoPage />} />
+          <Route path="/basics/:role" element={<RolePage />} />
+          <Route path="/basics/:role/:heroSlug" element={<HeroPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
