@@ -35,6 +35,9 @@ import inspireVideo from '../../../Assets/HeroInfo/videos/Inspire.mp4'
 
 import './HeroInfoPage.css'
 
+// Toggle to show/hide the native video player controls on ability demo videos.
+const SHOW_VIDEO_CONTROLS = false
+
 const abilityIconMap = {
   'Rocket Flail': rocketFlailIcon,
   'Barrier Shield': barrierShieldIcon,
@@ -622,8 +625,9 @@ export function HeroInfoPage() {
             <video
               className="video-modal-player"
               src={activeVideo.src}
-              controls
+              controls={SHOW_VIDEO_CONTROLS}
               autoPlay
+              loop
               playsInline
             />
           </div>
