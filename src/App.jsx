@@ -92,20 +92,17 @@ export default function App() {
 
   useEffect(() => {
     const previousPath = previousPathRef.current
-    const isHomeToAboutTransition = location.pathname === '/about' && previousPath === '/'
+    const isAboutNavigation = location.pathname === '/about' && previousPath !== '/about'
 
-    if (isHomeToAboutTransition) {
-      const hasPlayedHomeToAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
+    if (isAboutNavigation) {
+      const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
 
-      if (hasPlayedHomeToAboutSound) {
-        previousPathRef.current = location.pathname
-        return
+      if (!hasPlayedAboutSound) {
+        const audio = new Audio(introSound)
+        audio.volume = 0.15
+        audio.play().catch(() => {})
+        sessionStorage.setItem('brigitteAboutIntroPlayed', 'true')
       }
-
-      const audio = new Audio(introSound)
-      audio.volume = 0.15
-      audio.play().catch(() => {})
-      sessionStorage.setItem('brigitteAboutIntroPlayed', 'true')
     }
 
     previousPathRef.current = location.pathname

@@ -112,15 +112,28 @@
   align-items: flex-start;
   min-height: 7.5rem;
   padding: 1.2rem 1.1rem 1rem;
-  background: rgba(244, 238, 224, 0.04);
-  border: 1px solid rgba(129, 179, 180, 0.15);
-  border-left: 3px solid #81b3b4;
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+  transition: color 0.2s ease;
 }
 
-.heroinfo-spec-strip .spec-item:hover {
-  border-left-color: #d27a2c;
-  background: rgba(244, 238, 224, 0.07);
+.heroinfo-spec-strip .spec-label {
+  color: #81b3b4;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.55rem;
+  transition: color 0.2s ease;
+}
+
+.heroinfo-spec-strip .spec-item:hover .spec-label {
+  color: #d27a2c;
+}
+
+.heroinfo-spec-strip .spec-value {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+  line-height: 1.2;
+  color: #f4eee0;
 }
 
 .spec-sub {
