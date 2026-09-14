@@ -1,6 +1,7 @@
 import './AboutPage.css'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
+import { SiteFooter } from '../../components/SiteFooter.jsx'
 
 export function AboutPage() {
   return (
@@ -262,11 +263,7 @@ export function AboutPage() {
         </blockquote>
       </main>
 
-      <footer className="site-footer">
-        <span>LEARN BRIGITTE</span>
-        <span>DOSSIER ARCHIVE // BL-07</span>
-        <span>EST. 2026</span>
-      </footer>
+      <SiteFooter tag="DOSSIER ARCHIVE // BL-07" />
     </div>
   )
 }

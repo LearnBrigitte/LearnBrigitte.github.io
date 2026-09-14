@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { kit, AbilityTags, Perks, Removed } from './kit.js'
+import { SiteFooter } from '../../components/SiteFooter.jsx'
+import { AbilityCard } from './AbilityCard.jsx'
+import { PerkCard, RemovedPerkCard } from './PerkCard.jsx'
+import { tagAnchorId } from '../../utils/kitFormatters.jsx'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 
@@ -68,18 +72,6 @@ const abilityVideoMap = {
   Inspire: inspireVideo,
 }
 
-// Small clicking-mouse glyph used as the "click me" hint on playable cards.
-function ClickPointerIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M9 3.5 19 13l-4.2.6 2.4 4.9-2.3 1.1-2.4-4.9L9.8 18 9 3.5Z"
-        fill="currentColor"
-      />
-    </svg>
-  )
-}
-
 export function HeroInfoPage() {
   const [selectedTag, setSelectedTag] = useState(null)
   const [activeVideo, setActiveVideo] = useState(null)
@@ -145,34 +137,11 @@ export function HeroInfoPage() {
       setSelectedTag(null)
     } else {
       setSelectedTag(tagName)
-      const targetElement = document.getElementById(`tag-${tagName.replace(/\s+/g, '-').toLowerCase()}`)
+      const targetElement = document.getElementById(tagAnchorId(tagName))
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     }
-  }
-
-  // Format stat keys into clean readable labels
-  const formatStatKey = (key) => {
-    return key
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase())
-  }
-
-  const ignoredStatKeys = ['name', 'type', 'description', 'tags']
-
-  const renderMetricValue = (value) => {
-    if (typeof value === 'string' && value.includes(',')) {
-      const items = value.split(',').map((item) => item.trim()).filter(Boolean)
-      return (
-        <div className="metric-multiline">
-          {items.map((line, idx) => (
-            <span key={idx} className="metric-line">{line}</span>
-          ))}
-        </div>
-      )
-    }
-    return <span className="metric-val">{String(value)}</span>
   }
 
   return (
@@ -249,88 +218,18 @@ export function HeroInfoPage() {
             const isWeapon = item.type.includes('Weapon')
             const hasVideo = Boolean(abilityVideoMap[item.name])
 
-            // Extract dynamic metrics
-            const stats = Object.entries(item).filter(
-              ([key]) => !ignoredStatKeys.includes(key)
-            )
-
             return (
-              <article
+              <AbilityCard
                 key={index}
-                className={`ability-card ${isUltimate ? 'card-ultimate' : ''} ${isWeapon ? 'card-weapon' : ''} ${hasVideo ? 'has-video' : ''}`}
-                {...(hasVideo && {
-                  role: 'button',
-                  tabIndex: 0,
-                  onClick: () => openAbilityVideo(item.name),
-                  onKeyDown: (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      openAbilityVideo(item.name)
-                    }
-                  },
-                })}
-              >
-                {hasVideo && (
-                  <span className="click-hint">
-                    <ClickPointerIcon />
-                    Click to Watch
-                  </span>
-                )}
-
-                <div className="ability-card-top">
-                  <div className="ability-header-group">
-                    <div className="ability-icon-slot">
-                      <img
-                        src={abilityIconMap[item.name] || (isUltimate ? shieldIcon : inspireIcon)}
-                        alt=""
-                      />
-                    </div>
-                    <div className="ability-card-header">
-                      <div className="ability-type-badge">
-                        <span>{item.type.toUpperCase()}</span>
-                      </div>
-                      <h3 className="ability-title">{item.name}</h3>
-                    </div>
-                  </div>
-
-                  <p className="ability-description">{item.description}</p>
-                </div>
-
-                {/* Stat Metrics Grid */}
-                {stats.length > 0 && (
-                  <div className="ability-metrics-grid">
-                    {stats.map(([key, value]) => (
-                      <div key={key} className="metric-pill">
-                        <span className="metric-label">{formatStatKey(key)}</span>
-                        {renderMetricValue(value)}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Ability Mechanic Tags */}
-                {item.tags && item.tags.length > 0 && (
-                  <div className="ability-tags-row">
-                    <span className="tags-label">PROPERTIES:</span>
-                    <div className="tags-list">
-                      {item.tags.map((tag) => (
-                        <button
-                          key={tag}
-                          type="button"
-                          className={`tag-chip ${selectedTag === tag ? 'active-tag' : ''}`}
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            handleTagClick(tag)
-                          }}
-                          title={`Click to jump to tag: ${tag}`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </article>
+                item={item}
+                iconSrc={abilityIconMap[item.name] || (isUltimate ? shieldIcon : inspireIcon)}
+                isUltimate={isUltimate}
+                isWeapon={isWeapon}
+                hasVideo={hasVideo}
+                onOpenVideo={openAbilityVideo}
+                selectedTag={selectedTag}
+                onTagClick={handleTagClick}
+              />
             )
           })}
         </div>
@@ -343,88 +242,19 @@ export function HeroInfoPage() {
 
         <div className="passives-grid">
           {passiveAbilities.map((item, index) => {
-            const stats = Object.entries(item).filter(
-              ([key]) => !ignoredStatKeys.includes(key)
-            )
             const hasVideo = Boolean(abilityVideoMap[item.name])
 
             return (
-              <article
+              <AbilityCard
                 key={index}
-                className={`ability-card card-passive ${hasVideo ? 'has-video' : ''}`}
-                {...(hasVideo && {
-                  role: 'button',
-                  tabIndex: 0,
-                  onClick: () => openAbilityVideo(item.name),
-                  onKeyDown: (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      openAbilityVideo(item.name)
-                    }
-                  },
-                })}
-              >
-                {hasVideo && (
-                  <span className="click-hint">
-                    <ClickPointerIcon />
-                    Click to Watch
-                  </span>
-                )}
-
-                <div className="ability-card-top">
-                  <div className="ability-header-group">
-                    <div className="ability-icon-slot">
-                      <img
-                        src={abilityIconMap[item.name] || inspireIcon}
-                        alt=""
-                      />
-                    </div>
-                    <div className="ability-card-header">
-                      <div className="ability-type-badge">
-                        <span>{item.type.toUpperCase()}</span>
-                      </div>
-                      <h3 className="ability-title">{item.name}</h3>
-                    </div>
-                  </div>
-
-                  <p className="ability-description">{item.description}</p>
-                </div>
-
-                {/* Stat Metrics Grid */}
-                {stats.length > 0 && (
-                  <div className="ability-metrics-grid">
-                    {stats.map(([key, value]) => (
-                      <div key={key} className="metric-pill">
-                        <span className="metric-label">{formatStatKey(key)}</span>
-                        {renderMetricValue(value)}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Ability Mechanic Tags */}
-                {item.tags && item.tags.length > 0 && (
-                  <div className="ability-tags-row">
-                    <span className="tags-label">PROPERTIES:</span>
-                    <div className="tags-list">
-                      {item.tags.map((tag) => (
-                        <button
-                          key={tag}
-                          type="button"
-                          className={`tag-chip ${selectedTag === tag ? 'active-tag' : ''}`}
-                          onClick={(event) => {
-                            event.stopPropagation()
-                            handleTagClick(tag)
-                          }}
-                          title={`Click to jump to tag: ${tag}`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </article>
+                item={item}
+                iconSrc={abilityIconMap[item.name] || inspireIcon}
+                isPassive
+                hasVideo={hasVideo}
+                onOpenVideo={openAbilityVideo}
+                selectedTag={selectedTag}
+                onTagClick={handleTagClick}
+              />
             )
           })}
         </div>
@@ -442,41 +272,14 @@ export function HeroInfoPage() {
               <h3>Level 2 Perks</h3>
             </div>
             <div className="perk-cards">
-              {minorPerks.map((perk, i) => {
-                const isCommunityChoice = perk.name === highestMinorPickRatePerk
-                return (
-                  <div
-                    key={i}
-                    className={`perk-card ${isCommunityChoice ? 'community-choice' : ''}`}
-                  >
-                    <div className="perk-icon-slot">
-                      <img
-                        src={perkIconMap[perk.name] || inspireIcon}
-                        alt=""
-                      />
-                    </div>
-                    <div className="perk-info">
-                      <div className="perk-header-row">
-                        <h4>{perk.name}</h4>
-                        {isCommunityChoice ? (
-                          <span className="community-choice-badge">
-                            <span className="check-circle">✓</span>
-                            COMMUNITY CHOICE
-                          </span>
-                        ) : (
-                          <span className="perk-spacer" />
-                        )}
-                        {perk.pick_rate && (
-                          <span className="perk-pickrate-tag">
-                            PICK RATE: <strong>{perk.pick_rate}</strong>
-                          </span>
-                        )}
-                      </div>
-                      <p>{perk.description}</p>
-                    </div>
-                  </div>
-                )
-              })}
+              {minorPerks.map((perk, i) => (
+                <PerkCard
+                  key={i}
+                  perk={perk}
+                  iconSrc={perkIconMap[perk.name] || inspireIcon}
+                  isCommunityChoice={perk.name === highestMinorPickRatePerk}
+                />
+              ))}
             </div>
           </div>
 
@@ -486,41 +289,15 @@ export function HeroInfoPage() {
               <h3>Level 3 Perks</h3>
             </div>
             <div className="perk-cards">
-              {majorPerks.map((perk, i) => {
-                const isCommunityChoice = perk.name === highestMajorPickRatePerk
-                return (
-                  <div
-                    key={i}
-                    className={`perk-card major-card ${isCommunityChoice ? 'community-choice' : ''}`}
-                  >
-                    <div className="perk-icon-slot">
-                      <img
-                        src={perkIconMap[perk.name] || shieldIcon}
-                        alt=""
-                      />
-                    </div>
-                    <div className="perk-info">
-                      <div className="perk-header-row">
-                        <h4>{perk.name}</h4>
-                        {isCommunityChoice ? (
-                          <span className="community-choice-badge">
-                            <span className="check-circle">✓</span>
-                            COMMUNITY CHOICE
-                          </span>
-                        ) : (
-                          <span className="perk-spacer" />
-                        )}
-                        {perk.pick_rate && (
-                          <span className="perk-pickrate-tag">
-                            PICK RATE: <strong>{perk.pick_rate}</strong>
-                          </span>
-                        )}
-                      </div>
-                      <p>{perk.description}</p>
-                    </div>
-                  </div>
-                )
-              })}
+              {majorPerks.map((perk, i) => (
+                <PerkCard
+                  key={i}
+                  perk={perk}
+                  iconSrc={perkIconMap[perk.name] || shieldIcon}
+                  isMajor
+                  isCommunityChoice={perk.name === highestMajorPickRatePerk}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -533,29 +310,12 @@ export function HeroInfoPage() {
 
         <div className="perk-cards removed-perk-cards">
           {Removed.map((item, i) => (
-            <div
+            <RemovedPerkCard
               key={i}
-              className={`perk-card ${item.type === 'Major' ? 'major-card' : ''}`}
-            >
-              <div className="perk-icon-slot">
-                <img
-                  src={perkIconMap[item.name] || (item.type === 'Major' ? shieldIcon : inspireIcon)}
-                  alt=""
-                />
-              </div>
-              <div className="perk-info">
-                <div className="removed-meta-row">
-                  <span className={`tier-tag ${item.type === 'Major' ? 'major' : ''}`}>
-                    {item.type.toUpperCase()} PERK
-                  </span>
-                  <span className="removed-season-tag">
-                    {item.removed_season.toUpperCase()}
-                  </span>
-                </div>
-                <h4>{item.name}</h4>
-                <p>{item.description}</p>
-              </div>
-            </div>
+              item={item}
+              iconSrc={perkIconMap[item.name] || (item.type === 'Major' ? shieldIcon : inspireIcon)}
+              isMajor={item.type === 'Major'}
+            />
           ))}
         </div>
 
@@ -568,12 +328,11 @@ export function HeroInfoPage() {
         <div className="tags-glossary-grid">
           {AbilityTags.map((tagItem, idx) => {
             const isHighlighted = selectedTag === tagItem.name
-            const tagAnchorId = `tag-${tagItem.name.replace(/\s+/g, '-').toLowerCase()}`
 
             return (
               <div
                 key={idx}
-                id={tagAnchorId}
+                id={tagAnchorId(tagItem.name)}
                 className={`glossary-card ${isHighlighted ? 'glossary-card-highlight' : ''}`}
               >
                 <div className="glossary-header">
@@ -598,11 +357,7 @@ export function HeroInfoPage() {
         </blockquote>
       </main>
 
-      <footer className="site-footer">
-        <span>LEARN BRIGITTE</span>
-        <span>HERO SPECIFICATION // BL-KIT</span>
-        <span>EST. 2026</span>
-      </footer>
+      <SiteFooter tag="HERO SPECIFICATION // BL-KIT" />
 
       {activeVideo && createPortal(
         <div

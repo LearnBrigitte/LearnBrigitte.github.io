@@ -2,6 +2,7 @@ import './HomePage.css'
 import brigitteIcon from '../../../Assets/Images/LandingPage/Brigitte-Icon.png'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
+import { SiteFooter } from '../../components/SiteFooter.jsx'
 
 export function HomePage() {
   return (
@@ -49,11 +50,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <footer className="site-footer">
-        <span>LEARN BRIGITTE</span>
-        <span>CHARACTER ARCHIVE</span>
-        <span>EST. 2026</span>
-      </footer>
+      <SiteFooter tag="CHARACTER ARCHIVE" />
     </>
   )
 }

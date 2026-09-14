@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage.jsx'
+import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { ROLE_LABELS, ROSTER_BY_ROLE } from '../../data/roster.js'
 import './HeroPage.css'
 
@@ -44,11 +45,7 @@ export function HeroPage() {
         </div>
       </main>
 
-      <footer className="site-footer">
-        <span>LEARN BRIGITTE</span>
-        <span>MATCHUP GUIDE // {roleLabel.toUpperCase()}</span>
-        <span>EST. 2026</span>
-      </footer>
+      <SiteFooter tag={`MATCHUP GUIDE // ${roleLabel.toUpperCase()}`} />
     </div>
   )
 }
