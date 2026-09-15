@@ -1,9 +1,13 @@
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { SiteFooter } from '../../components/SiteFooter.jsx'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
+import whipShotIcon from '../../../Assets/HeroInfo/icons/kit/Whip_Shot.webp'
 import './BasicsPage.css'
 
 const basicsSections = [
   {
+    id: 'how-to-play',
     title: 'How to Play Brigitte',
     body: [
       <p key="intro-1">
@@ -21,6 +25,7 @@ const basicsSections = [
     ],
   },
   {
+    id: 'protect-support',
     title: 'Protect Your Other Support',
     body: [
       <p key="support-1">
@@ -41,6 +46,7 @@ const basicsSections = [
     ],
   },
   {
+    id: 'control-space',
     title: 'Control Important Space',
     body: [
       <p key="space-1">
@@ -64,6 +70,7 @@ const basicsSections = [
     ],
   },
   {
+    id: 'win-condition',
     title: 'Support Your Team\'s Win Condition',
     body: [
       <p key="win-1">
@@ -90,6 +97,7 @@ const basicsSections = [
     ],
   },
   {
+    id: 'aggression',
     title: 'Know When to Be Aggressive',
     body: [
       <p key="aggro-1">
@@ -107,22 +115,23 @@ const basicsSections = [
       <p key="aggro-5">
         Before committing, consider:
       </p>,
-      <blockquote key="aggro-6">
+      <div key="aggro-6" className="basics-checklist">
         <ul>
-          <li><strong>How many enemies can actually damage me?</strong></li>
-          <li><strong>What enemy cooldowns are available?</strong></li>
-          <li><strong>Do I have an escape route?</strong></li>
-          <li><strong>Where is my other support?</strong></li>
-          <li><strong>Can my team follow my aggression?</strong></li>
-          <li><strong>What happens if the fight goes badly?</strong></li>
+          <li>How many enemies can actually damage me?</li>
+          <li>What enemy cooldowns are available?</li>
+          <li>Do I have an escape route?</li>
+          <li>Where is my other support?</li>
+          <li>Can my team follow my aggression?</li>
+          <li>What happens if the fight goes badly?</li>
         </ul>
-      </blockquote>,
+      </div>,
       <p key="aggro-7">
         The better you understand what Brigitte can and cannot survive, the more aggressive you can safely become.
       </p>,
     ],
   },
   {
+    id: 'whip-shot',
     title: 'WHIP SHOT',
     body: [
       <p key="whip-1">
@@ -146,6 +155,7 @@ const basicsSections = [
     ],
   },
   {
+    id: 'big-picture',
     title: 'The Big Picture',
     body: [
       <p key="big-1">
@@ -154,15 +164,15 @@ const basicsSections = [
       <p key="big-2">
         She's constantly asking:
       </p>,
-      <blockquote key="big-3">
+      <div key="big-3" className="basics-checklist">
         <ul>
-            <li><strong>Who needs protection?</strong></li>
-            <li><strong>What space needs to be controlled?</strong></li>
-            <li><strong>Which enemy position needs to be denied?</strong></li>
-            <li><strong>Where can I help my team take space?</strong></li>
-            <li><strong>Can I safely play more aggressively right now?</strong></li>
+            <li>Who needs protection?</li>
+            <li>What space needs to be controlled?</li>
+            <li>Which enemy position needs to be denied?</li>
+            <li>Where can I help my team take space?</li>
+            <li>Can I safely play more aggressively right now?</li>
         </ul>
-      </blockquote>,
+      </div>,
       <p key="big-4">
         Brigitte's strength comes from being able to switch between <strong>peeling, controlling space, supporting teammates, and applying pressure</strong> as the situation changes.
       </p>,
@@ -176,9 +186,97 @@ const basicsSections = [
   },
 ]
 
+const keyTakeaways = [
+  {
+    kicker: 'Core Rule',
+    title: 'Protect the backline.',
+    text: "Brigitte's value is not just damage; it is how often she keeps the team alive and the fight from spiraling.",
+  },
+  {
+    kicker: 'Priority',
+    title: 'Control space',
+    text: 'Take the angles that matter and deny the enemy their easiest access to your team.',
+  },
+  {
+    kicker: 'Timing',
+    title: 'Play the fight',
+    text: 'Brigitte should be aggressive when the numbers, cooldowns, and team follow-up all favor it.',
+  },
+  {
+    kicker: 'Weapon',
+    title: 'Whip Shot',
+    text: 'Use it for safe value. Efficient Whip Shots create pressure without forcing risky positioning.',
+  },
+]
+
 export function BasicsPage() {
+  const [activeId, setActiveId] = useState(basicsSections[0].id)
+  const [progress, setProgress] = useState(0)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const sectionRefs = useRef({})
+
+  // Highlights the TOC entry for whichever section is currently in the reading zone.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting)
+        if (visible.length > 0) setActiveId(visible[0].target.id)
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    )
+
+    Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const updatePositions = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? window.scrollY / total : 0)
+      setShowBackToTop(window.scrollY > 600)
+    }
+
+    updatePositions()
+    window.addEventListener('scroll', updatePositions, { passive: true })
+    window.addEventListener('resize', updatePositions)
+    return () => {
+      window.removeEventListener('scroll', updatePositions)
+      window.removeEventListener('resize', updatePositions)
+    }
+  }, [])
+
+  const tocNav = (
+    <nav className="basics-toc">
+      <span className="basics-side-kicker">On This Page</span>
+      <ul>
+        {basicsSections.map((section, index) => (
+          <li key={section.id}>
+            <a
+              href={`#${section.id}`}
+              className={activeId === section.id ? 'active' : ''}
+              onClick={(event) => {
+                event.preventDefault()
+                document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }}
+            >
+              <span className="basics-toc-index">{String(index + 1).padStart(2, '0')}</span>
+              {section.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+
   return (
     <div className="basics-page">
+      {createPortal(
+        <div className="basics-progress-track" aria-hidden="true">
+          <div className="basics-progress-bar" style={{ width: `${Math.min(progress, 1) * 100}%` }} />
+        </div>,
+        document.body
+      )}
+
       <header className="basics-banner" aria-labelledby="basics-headline">
         <div className="basics-banner-inner">
           <div className="basics-meta-tags">
@@ -206,12 +304,29 @@ export function BasicsPage() {
       </header>
 
       <main className="basics-content">
+        <div className="basics-takeaways" aria-label="Key takeaways">
+          {keyTakeaways.map((item) => (
+            <div key={item.kicker} className="basics-takeaway-tile">
+              <span className="basics-side-kicker">{item.kicker}</span>
+              <strong>{item.title}</strong>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="basics-layout">
           <article className="basics-article">
-            {basicsSections.map((section, index) => (
-              <section key={section.title} className="basics-section">
+            {basicsSections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                ref={(el) => { sectionRefs.current[section.id] = el }}
+                className="basics-section"
+              >
                 <div className="basics-section-header">
-                  <span className="basics-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="basics-index">
+                    <img src={whipShotIcon} alt="" />
+                  </span>
                   <h2>{section.title}</h2>
                 </div>
                 {section.body}
@@ -219,33 +334,23 @@ export function BasicsPage() {
             ))}
           </article>
 
-          <aside className="basics-sidebar" aria-label="Brigitte fundamentals overview">
-            <div className="basics-aside-card basics-aside-highlight">
-              <span className="basics-side-kicker">Core Rule</span>
-              <strong>Protect the backline.</strong>
-              <p>Brigitte's value is not just damage; it is how often she keeps the team alive and the fight from spiraling.</p>
-            </div>
-
-            <div className="basics-aside-card">
-              <span className="basics-side-kicker">Priority</span>
-              <strong>Control space</strong>
-              <p>Take the angles that matter and deny the enemy their easiest access to your team.</p>
-            </div>
-
-            <div className="basics-aside-card">
-              <span className="basics-side-kicker">Timing</span>
-              <strong>Play the fight</strong>
-              <p>Brigitte should be aggressive when the numbers, cooldowns, and team follow-up all favor it.</p>
-            </div>
-
-            <div className="basics-aside-card">
-              <span className="basics-side-kicker">Weapon</span>
-              <strong>Whip Shot</strong>
-              <p>Use it for safe value. Efficient Whip Shots create pressure without forcing risky positioning.</p>
-            </div>
+          <aside className="basics-sidebar" aria-label="Section navigation">
+            {tocNav}
           </aside>
         </div>
       </main>
+
+      {createPortal(
+        <button
+          type="button"
+          className={`basics-back-to-top ${showBackToTop ? 'visible' : ''}`}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
+        >
+          &uarr;
+        </button>,
+        document.body
+      )}
 
       <SiteFooter tag="PLAYING BRIGITTE // BASICS" />
     </div>

@@ -3,6 +3,22 @@
   min-height: 100vh;
 }
 
+.basics-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(25, 53, 74, 0.12);
+  z-index: 60;
+}
+
+.basics-progress-bar {
+  height: 100%;
+  background: #d27a2c;
+  transition: width 0.1s linear;
+}
+
 .basics-banner {
   background-color: #19354a;
   color: #f4eee0;
@@ -121,6 +137,36 @@
   padding: 4rem 2rem 5rem;
 }
 
+.basics-takeaways {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.basics-takeaway-tile {
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(25, 53, 74, 0.12);
+  border-top: 3px solid #d27a2c;
+  padding: 1rem 1.1rem;
+}
+
+.basics-takeaway-tile strong {
+  display: block;
+  margin: 0.3rem 0 0.4rem;
+  color: #19354a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.basics-takeaway-tile p {
+  margin: 0;
+  color: #4a5c68;
+  line-height: 1.55;
+  font-size: 0.88rem;
+}
+
 .basics-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(17rem, 0.7fr);
@@ -157,10 +203,13 @@
   height: 2.3rem;
   background: rgba(210, 122, 44, 0.08);
   border: 1px solid rgba(210, 122, 44, 0.4);
-  color: #d27a2c;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+}
+
+.basics-index img {
+  width: 1.3rem;
+  height: 1.3rem;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(78%) saturate(698%) hue-rotate(345deg) brightness(93%) contrast(96%);
 }
 
 .basics-section h2 {
@@ -204,6 +253,33 @@
   font-style: italic;
 }
 
+.basics-checklist {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  background: rgba(25, 53, 74, 0.05);
+  border: 1px solid rgba(25, 53, 74, 0.15);
+}
+
+.basics-checklist ul {
+  list-style: none;
+  padding: 0;
+}
+
+.basics-checklist li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-weight: 700;
+  color: #19354a;
+}
+
+.basics-checklist li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: #d27a2c;
+  font-weight: 800;
+}
+
 .basics-section strong {
   color: #19354a;
 }
@@ -219,18 +295,6 @@
   gap: 1rem;
 }
 
-.basics-aside-card {
-  background: rgba(255, 255, 255, 0.68);
-  border: 1px solid rgba(25, 53, 74, 0.12);
-  border-top: 3px solid #19354a;
-  padding: 1rem 1.1rem;
-}
-
-.basics-aside-highlight {
-  border-top-color: #d27a2c;
-  background: rgba(210, 122, 44, 0.04);
-}
-
 .basics-side-kicker {
   display: block;
   color: #d27a2c;
@@ -241,24 +305,94 @@
   margin-bottom: 0.45rem;
 }
 
-.basics-aside-card strong {
-  display: block;
-  margin-bottom: 0.4rem;
-  color: #19354a;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.2rem;
-  font-weight: 400;
+.basics-toc {
+  position: sticky;
+  top: 1.5rem;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(25, 53, 74, 0.12);
+  border-top: 3px solid #19354a;
+  padding: 1rem 1.1rem;
 }
 
-.basics-aside-card p {
-  margin: 0;
+.basics-toc ul {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.basics-toc a {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.4rem;
   color: #4a5c68;
-  line-height: 1.6;
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-left: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.basics-toc a:hover {
+  color: #19354a;
+  background: rgba(25, 53, 74, 0.04);
+}
+
+.basics-toc a.active {
+  color: #d27a2c;
+  border-left-color: #d27a2c;
+  background: rgba(210, 122, 44, 0.08);
+  font-weight: 700;
+}
+
+.basics-toc-index {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #81b3b4;
+  min-width: 1.2rem;
+}
+
+.basics-back-to-top {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: none;
+  background: #19354a;
+  color: #f4eee0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  z-index: 50;
+}
+
+.basics-back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.basics-back-to-top:hover {
+  background: #d27a2c;
 }
 
 @media (max-width: 900px) {
   .basics-layout {
     grid-template-columns: 1fr;
+  }
+
+  .basics-toc {
+    position: static;
+  }
+
+  .basics-takeaways {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
