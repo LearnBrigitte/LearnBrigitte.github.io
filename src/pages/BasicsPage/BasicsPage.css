@@ -25,6 +25,23 @@
   margin-bottom: 2rem;
 }
 
+.tag-pill {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background: rgba(244, 238, 224, 0.08);
+  border: 1px solid rgba(129, 179, 180, 0.35);
+  color: #81b3b4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.tag-pill.status-tag {
+  border-color: #d27a2c;
+  color: #d27a2c;
+  background: rgba(210, 122, 44, 0.12);
+}
+
 .basics-pretitle {
   margin: 0 0 0.5rem;
   color: #d27a2c;
@@ -36,14 +53,16 @@
 
 .basics-main-title {
   margin: 0;
+  color: #f4eee0;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  line-height: 0.88;
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(2.8rem, 5.5vw, 4.4rem);
-  line-height: 1;
+  font-weight: 400;
 }
 
 .basics-main-title em {
-  color: #d27a2c;
-  font-style: normal;
+  color: #81b3b4;
+  font-style: italic;
 }
 
 .basics-title-row {
@@ -58,15 +77,33 @@
 .basics-quick-badge {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.9rem 1.1rem;
+  gap: 1rem;
+  padding: 1rem 1.4rem;
   background: rgba(244, 238, 224, 0.06);
-  border: 1px solid rgba(129, 179, 180, 0.24);
+  border-left: 3px solid #d27a2c;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.basics-quick-badge:hover {
+  transform: translateY(-1px);
+  border-color: #81b3b4;
+}
+
+.basics-quick-badge img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.basics-quick-badge:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(78%) saturate(698%) hue-rotate(345deg) brightness(93%) contrast(96%);
 }
 
 .basics-quick-badge strong {
   display: block;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #f4eee0;
   letter-spacing: 0.04em;
 }

@@ -1,4 +1,5 @@
 import { SiteFooter } from '../../components/SiteFooter.jsx'
+import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 import './BasicsPage.css'
 
 const basicsSections = [
@@ -106,14 +107,16 @@ const basicsSections = [
       <p key="aggro-5">
         Before committing, consider:
       </p>,
-      <ul key="aggro-6">
-        <li>How many enemies can actually damage me?</li>
-        <li>What enemy cooldowns are available?</li>
-        <li>Do I have an escape route?</li>
-        <li>Where is my other support?</li>
-        <li>Can my team follow my aggression?</li>
-        <li>What happens if the fight goes badly?</li>
-      </ul>,
+      <blockquote key="aggro-6">
+        <ul>
+          <li><strong>How many enemies can actually damage me?</strong></li>
+          <li><strong>What enemy cooldowns are available?</strong></li>
+          <li><strong>Do I have an escape route?</strong></li>
+          <li><strong>Where is my other support?</strong></li>
+          <li><strong>Can my team follow my aggression?</strong></li>
+          <li><strong>What happens if the fight goes badly?</strong></li>
+        </ul>
+      </blockquote>,
       <p key="aggro-7">
         The better you understand what Brigitte can and cannot survive, the more aggressive you can safely become.
       </p>,
@@ -151,13 +154,15 @@ const basicsSections = [
       <p key="big-2">
         She's constantly asking:
       </p>,
-      <ul key="big-3">
-        <li><strong>Who needs protection?</strong></li>
-        <li><strong>What space needs to be controlled?</strong></li>
-        <li><strong>Which enemy position needs to be denied?</strong></li>
-        <li><strong>Where can I help my team take space?</strong></li>
-        <li><strong>Can I safely play more aggressively right now?</strong></li>
-      </ul>,
+      <blockquote key="big-3">
+        <ul>
+            <li><strong>Who needs protection?</strong></li>
+            <li><strong>What space needs to be controlled?</strong></li>
+            <li><strong>Which enemy position needs to be denied?</strong></li>
+            <li><strong>Where can I help my team take space?</strong></li>
+            <li><strong>Can I safely play more aggressively right now?</strong></li>
+        </ul>
+      </blockquote>,
       <p key="big-4">
         Brigitte's strength comes from being able to switch between <strong>peeling, controlling space, supporting teammates, and applying pressure</strong> as the situation changes.
       </p>,
@@ -190,9 +195,10 @@ export function BasicsPage() {
               </h1>
             </div>
             <div className="basics-quick-badge">
+              <img src={supportIcon} alt="" />
               <div>
-                <strong>Support / Frontliner</strong>
-                <span>Protect, deny space, create openings</span>
+                <strong>Support / Survivor</strong>
+                <span>Ironclad Guild Engineer</span>
               </div>
             </div>
           </div>
