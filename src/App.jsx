@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage/AboutPage.jsx'
+import { BasicsPage } from './pages/BasicsPage/BasicsPage.jsx'
 import { HeroInfoPage } from './pages/HeroInfoPage/HeroInfoPage.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { RolePage } from './pages/RolePage/RolePage.jsx'
@@ -20,6 +21,8 @@ const routeTitles = {
   '/': 'Brigitte Lindholm',
   '/about': 'About Brigitte',
   '/hero-info': 'Hero Information',
+  '/basics': 'Playing Brigitte',
+  '/intermediate': 'Intermediate Guides',
 }
 
 // Resolves the tab title for routes that aren't in the static map above (e.g. /basics/*).
@@ -28,18 +31,18 @@ function resolveDocumentTitle(pathname) {
     return routeTitles[pathname]
   }
 
-  const basicsMatch = pathname.match(/^\/basics\/([^/]+)(?:\/([^/]+))?$/)
-  if (basicsMatch) {
-    const [, role, heroSlug] = basicsMatch
+  const intermediateMatch = pathname.match(/^\/intermediate\/([^/]+)(?:\/([^/]+))?$/)
+  if (intermediateMatch) {
+    const [, role, heroSlug] = intermediateMatch
     const roleLabel = ROLE_LABELS[role]
     if (!roleLabel) {
       return 'Brigitte Lindholm'
     }
     if (!heroSlug) {
-      return `${roleLabel} // Basics`
+      return `${roleLabel} // Intermediate`
     }
     const hero = ROSTER_BY_ROLE[role]?.find((item) => item.slug === heroSlug)
-    return hero ? `${hero.name} // Basics` : 'Brigitte Lindholm'
+    return hero ? `${hero.name} // Intermediate` : 'Brigitte Lindholm'
   }
 
   return 'Brigitte Lindholm'
@@ -50,24 +53,25 @@ export default function App() {
   const isDarkHeader =
     location.pathname === '/about' ||
     location.pathname === '/hero-info' ||
-    location.pathname.startsWith('/basics')
+    location.pathname.startsWith('/basics') ||
+    location.pathname.startsWith('/intermediate')
   const previousPathRef = useRef(location.pathname)
   const [isPageTransitioning, setIsPageTransitioning] = useState(false)
-  const [isBasicsMenuOpen, setIsBasicsMenuOpen] = useState(false)
-  const basicsMenuRef = useRef(null)
+  const [isIntermediateMenuOpen, setIsIntermediateMenuOpen] = useState(false)
+  const intermediateMenuRef = useRef(null)
 
   useEffect(() => {
     document.title = resolveDocumentTitle(location.pathname)
   }, [location.pathname])
 
   useEffect(() => {
-    setIsBasicsMenuOpen(false)
+    setIsIntermediateMenuOpen(false)
   }, [location.pathname])
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (basicsMenuRef.current && !basicsMenuRef.current.contains(event.target)) {
-        setIsBasicsMenuOpen(false)
+      if (intermediateMenuRef.current && !intermediateMenuRef.current.contains(event.target)) {
+        setIsIntermediateMenuOpen(false)
       }
     }
 
@@ -131,22 +135,23 @@ export default function App() {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/hero-info">Hero Info</NavLink>
-            <div className="nav-dropdown" ref={basicsMenuRef}>
+            <NavLink to="/basics">Basics</NavLink>
+            <div className="nav-dropdown" ref={intermediateMenuRef}>
               <button
                 type="button"
-                className={`nav-dropdown-trigger ${location.pathname.startsWith('/basics') ? 'active' : ''}`}
-                onClick={() => setIsBasicsMenuOpen((open) => !open)}
-                aria-expanded={isBasicsMenuOpen}
+                className={`nav-dropdown-trigger ${location.pathname.startsWith('/intermediate') ? 'active' : ''}`}
+                onClick={() => setIsIntermediateMenuOpen((open) => !open)}
+                aria-expanded={isIntermediateMenuOpen}
                 aria-haspopup="true"
               >
-                Basics
+                Intermediate
                 <span className="nav-dropdown-caret">▾</span>
               </button>
-              {isBasicsMenuOpen && (
+              {isIntermediateMenuOpen && (
                 <div className="nav-dropdown-menu">
-                  <NavLink to="/basics/tanks">Tanks</NavLink>
-                  <NavLink to="/basics/dps">DPS</NavLink>
-                  <NavLink to="/basics/supports">Supports</NavLink>
+                  <NavLink to="/intermediate/tanks">Tanks</NavLink>
+                  <NavLink to="/intermediate/dps">DPS</NavLink>
+                  <NavLink to="/intermediate/supports">Supports</NavLink>
                 </div>
               )}
             </div>
@@ -158,8 +163,10 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/hero-info" element={<HeroInfoPage />} />
-          <Route path="/basics/:role" element={<RolePage />} />
-          <Route path="/basics/:role/:heroSlug" element={<HeroPage />} />
+          <Route path="/basics" element={<BasicsPage />} />
+          <Route path="/intermediate" element={<RolePage />} />
+          <Route path="/intermediate/:role" element={<RolePage />} />
+          <Route path="/intermediate/:role/:heroSlug" element={<HeroPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -19,7 +19,7 @@ export function HeroPage() {
     <div className="herobasics-page">
       <section className="herobasics-banner">
         <div className="herobasics-banner-inner">
-          <Link to={`/basics/${role}`} className="herobasics-back-link">
+          <Link to={`/intermediate/${role}`} className="herobasics-back-link">
             &larr; Back to {roleLabel}
           </Link>
           <div className="herobasics-title-row">

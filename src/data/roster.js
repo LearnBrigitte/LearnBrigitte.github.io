@@ -39,17 +39,13 @@ function getHeroIcon(name) {
   return heroIconsByName[normalizeKey(name)] || placeholderIcon
 }
 
-// These pages cover other heroes are "how to fight them as Brigitte" matchup guides,
-// so her own Supports entry links to her existing kit page instead of a counter-guide.
-const BRIGITTE_OVERRIDE_PATH = '/hero-info'
-
 function buildRoster(role, names) {
   return names.map((name) => ({
     name,
     slug: slugify(name),
     role,
     icon: getHeroIcon(name),
-    path: name === 'Brigitte' ? BRIGITTE_OVERRIDE_PATH : `/basics/${role}/${slugify(name)}`,
+    path: `/intermediate/${role}/${slugify(name)}`,
   }))
 }
 

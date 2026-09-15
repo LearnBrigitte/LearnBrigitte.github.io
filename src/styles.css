@@ -416,6 +416,7 @@ h1, h2 {
 .nav-dropdown-trigger {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.3rem;
   background: none;
   border: none;
@@ -424,6 +425,7 @@ h1, h2 {
   font-size: .69rem;
   font-weight: 800;
   letter-spacing: .11em;
+  line-height: 1;
   text-transform: uppercase;
   font-family: inherit;
   cursor: pointer;
