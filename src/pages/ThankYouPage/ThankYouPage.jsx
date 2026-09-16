@@ -1,5 +1,5 @@
 import './ThankYouPage.css'
-import rallyIcon from '../../../Assets/HeroInfo/icons/kit/rally.webp'
+import rallyIcon from '../../../Assets/HeroInfo/icons/kit/Rally.webp'
 import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { playAudioExclusive } from '../../utils/audioPlayer.js'
 import thankAthenaSound from '../../../Assets/Sounds/HeroInfoPage/ThankAthena/TA_1.ogg'
