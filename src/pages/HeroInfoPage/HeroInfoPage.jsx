@@ -5,6 +5,7 @@ import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { AbilityCard } from './AbilityCard.jsx'
 import { PerkCard, RemovedPerkCard } from './PerkCard.jsx'
 import { tagAnchorId } from '../../utils/kitFormatters.jsx'
+import { SHOW_VIDEO_CONTROLS } from '../../data/flags.js'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 
@@ -38,9 +39,6 @@ import rallyVideo from '../../../Assets/HeroInfo/videos/Rally.mp4'
 import inspireVideo from '../../../Assets/HeroInfo/videos/Inspire.mp4'
 
 import './HeroInfoPage.css'
-
-// Toggle to show/hide the native video player controls on ability demo videos.
-const SHOW_VIDEO_CONTROLS = false
 
 const abilityIconMap = {
   'Rocket Flail': rocketFlailIcon,
