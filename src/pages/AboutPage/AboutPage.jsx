@@ -10,7 +10,7 @@ export function AboutPage() {
       <header className="dossier-banner" aria-labelledby="dossier-headline">
         <div className="dossier-banner-inner">
           <div className="dossier-meta-tags">
-            <span className="tag-pill">ARCHIVE ID // BL-07</span>
+            <span className="tag-pill">TACTICAL ARCHIVE ID // BL-07</span>
             <span className="tag-pill">CLEARANCE // OVERWATCH RECALL</span>
             <span className="tag-pill status-tag">STATUS // ACTIVE COMBATANT</span>
           </div>

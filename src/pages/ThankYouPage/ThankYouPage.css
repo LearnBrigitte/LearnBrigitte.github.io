@@ -1,0 +1,235 @@
+.thank-you-page {
+  min-height: 100vh;
+  background: #19354a;
+  color: #f4eee0;
+}
+
+.thank-you-hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 4.5rem);
+  overflow: hidden;
+  padding: 7.5rem 2rem 5rem;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(129, 179, 180, 0.16), transparent 20rem),
+    linear-gradient(135deg, #19354a 0%, #102b3e 100%);
+}
+
+.thank-you-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(129, 179, 180, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(129, 179, 180, 0.1) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: linear-gradient(to bottom, transparent, black 24%, black 76%, transparent);
+}
+
+.thank-you-content {
+  position: relative;
+  width: min(100%, 58rem);
+  text-align: center;
+  animation: thank-you-arrival 0.8s ease both;
+}
+
+.thank-you-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(129, 179, 180, 0.28);
+  color: #81b3b4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.thank-you-emblem {
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: 3.5rem auto 1.8rem;
+  border: 1px solid rgba(210, 122, 44, 0.65);
+  background: rgba(244, 238, 224, 0.06);
+  transform: rotate(45deg);
+  animation:
+    thank-you-emblem-in 0.8s 0.25s ease both,
+    thank-you-emblem-pulse 2.6s ease-in-out infinite,
+    thank-you-emblem-spin 40s 1.05s linear infinite;
+}
+
+/* counter-spins at the same rate as the box so the icon itself stays upright */
+.thank-you-emblem-icon {
+  display: grid;
+  place-items: center;
+  transform: rotate(-45deg);
+  animation: thank-you-emblem-counter-spin 40s 1.05s linear infinite;
+}
+
+.thank-you-emblem img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  animation: thank-you-rally-glow 2.6s ease-in-out infinite;
+}
+
+.thank-you-eyebrow {
+  margin: 0 0 0.8rem;
+  color: #d27a2c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.thank-you-content h1 {
+  margin: 0;
+  color: #f4eee0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 400;
+  line-height: 0.88;
+}
+
+.thank-you-content h1 em {
+  color: #81b3b4;
+  font-style: italic;
+}
+
+.thank-you-message {
+  max-width: 32rem;
+  margin: 2rem auto 0;
+  color: rgba(244, 238, 224, 0.78);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.thank-you-rule {
+  width: 5rem;
+  height: 2px;
+  margin: 2rem auto 1rem;
+  background: #d27a2c;
+}
+
+.thank-you-signoff {
+  margin: 0;
+  color: #d27a2c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.thank-you-home-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 2.4rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(129, 179, 180, 0.55);
+  background: transparent;
+  color: #f4eee0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 rgba(210, 122, 44, 0);
+  animation:
+    thank-you-button-pulse 3.2s 1.2s ease-in-out infinite,
+    thank-you-button-shimmer 4.6s ease-in-out infinite;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.thank-you-home-link:hover,
+.thank-you-home-link:focus-visible {
+  border-color: #d27a2c;
+  background: rgba(210, 122, 44, 0.12);
+  box-shadow: 0 0 1.5rem rgba(210, 122, 44, 0.28);
+  transform: translateY(-2px);
+}
+
+@keyframes thank-you-button-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(210, 122, 44, 0);
+  }
+  50% {
+    box-shadow: 0 0 1.5rem rgba(210, 122, 44, 0.35);
+  }
+}
+
+@keyframes thank-you-button-shimmer {
+  0%, 100% {
+    text-shadow: 0 0 0 rgba(244, 238, 224, 0);
+  }
+  50% {
+    text-shadow: 0 0 0.7rem rgba(244, 238, 224, 0.4);
+  }
+}
+
+@keyframes thank-you-arrival {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes thank-you-emblem-in {
+  from { opacity: 0; transform: rotate(45deg) scale(0.6); }
+  to { opacity: 1; transform: rotate(45deg) scale(1); }
+}
+
+/* keeps the diamond frame's glow in sync with the icon's pulse */
+@keyframes thank-you-emblem-pulse {
+  0%, 100% {
+    border-color: rgba(210, 122, 44, 0.65);
+    box-shadow: 0 0 0 rgba(210, 122, 44, 0);
+  }
+  50% {
+    border-color: rgba(210, 122, 44, 0.95);
+    box-shadow: 0 0 1.2rem rgba(210, 122, 44, 0.55);
+  }
+}
+
+/* takes over from thank-you-emblem-in's held rotate(45deg) once the delay elapses */
+@keyframes thank-you-emblem-spin {
+  from { transform: rotate(45deg); }
+  to { transform: rotate(405deg); }
+}
+
+/* rotates opposite the box at the same rate so the two cancel out */
+@keyframes thank-you-emblem-counter-spin {
+  from { transform: rotate(-45deg); }
+  to { transform: rotate(-405deg); }
+}
+
+/* mimics Rally's passive pulse of speed/aura */
+@keyframes thank-you-rally-glow {
+  0%, 100% {
+    filter: brightness(0) invert(1) drop-shadow(0 0 0 rgba(210, 122, 44, 0));
+    transform: scale(1);
+  }
+  50% {
+    filter: brightness(0) invert(1) drop-shadow(0 0 0.6rem rgba(210, 122, 44, 0.85));
+    transform: scale(1.08);
+  }
+}
+
+@media (max-width: 600px) {
+  .thank-you-hero {
+    min-height: calc(100vh - 7rem);
+    padding: 6rem 1.25rem 4rem;
+  }
+
+  .thank-you-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .thank-you-emblem {
+    margin-top: 2.8rem;
+  }
+}

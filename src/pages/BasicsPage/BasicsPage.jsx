@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SiteFooter } from '../../components/SiteFooter.jsx'
+import { BASICS_PAGE_AUDIO_ENABLED } from '../../data/flags.js'
+import { playAudioExclusive } from '../../utils/audioPlayer.js'
+import basicsPageAudio from '../../../Assets/Sounds/HeroInfoPage/Basics_Page/BP_1.ogg'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 import whipShotIcon from '../../../Assets/HeroInfo/icons/kit/Whip_Shot.webp'
 import './BasicsPage.css'
@@ -215,6 +218,17 @@ export function BasicsPage() {
   const [showBackToTop, setShowBackToTop] = useState(false)
   const sectionRefs = useRef({})
 
+  // Plays a welcome clip once per tab session when the user lands on the Basics page.
+  useEffect(() => {
+    if (!BASICS_PAGE_AUDIO_ENABLED) return
+
+    const hasPlayedBasicsSound = sessionStorage.getItem('brigitteBasicsIntroPlayed') === 'true'
+    if (hasPlayedBasicsSound) return
+
+    playAudioExclusive(basicsPageAudio, 0.5)
+    sessionStorage.setItem('brigitteBasicsIntroPlayed', 'true')
+  }, [])
+
   // Highlights the TOC entry for whichever section is currently in the reading zone.
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -280,9 +294,9 @@ export function BasicsPage() {
       <header className="basics-banner" aria-labelledby="basics-headline">
         <div className="basics-banner-inner">
           <div className="basics-meta-tags">
-            <span className="tag-pill">FUNDAMENTALS</span>
-            <span className="tag-pill">ROLE PLAY</span>
-            <span className="tag-pill status-tag">PLAYING BRIGITTE</span>
+            <span className="tag-pill">TACTICAL ARCHIVE ID // BL-07</span>
+            <span className="tag-pill">POSITIONING GUIDE</span>
+            <span className="tag-pill status-tag">SUPPORT FUNDAMENTALS</span>
           </div>
 
           <div className="basics-title-row">

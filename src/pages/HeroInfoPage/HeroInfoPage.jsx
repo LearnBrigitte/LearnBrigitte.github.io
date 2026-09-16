@@ -5,7 +5,17 @@ import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { AbilityCard } from './AbilityCard.jsx'
 import { PerkCard, RemovedPerkCard } from './PerkCard.jsx'
 import { tagAnchorId } from '../../utils/kitFormatters.jsx'
-import { SHOW_VIDEO_CONTROLS } from '../../data/flags.js'
+import { stopCurrentAudio, playAudioExclusive } from '../../utils/audioPlayer.js'
+import {
+  SHOW_VIDEO_CONTROLS,
+  HERO_INFO_ABILITY_AUDIO_ENABLED,
+  ROCKET_FLAIL_AUDIO_ENABLED,
+  BARRIER_SHIELD_AUDIO_ENABLED,
+  REPAIR_PACK_AUDIO_ENABLED,
+  WHIP_SHOT_AUDIO_ENABLED,
+  SHIELD_BASH_AUDIO_ENABLED,
+  RALLY_AUDIO_ENABLED,
+} from '../../data/flags.js'
 import shieldIcon from '../../../Assets/Images/Icons/Shield.webp'
 import supportIcon from '../../../Assets/Images/Icons/Support_icon.png'
 
@@ -37,6 +47,14 @@ import whipShotVideo from '../../../Assets/HeroInfo/videos/Whip_Shot.mp4'
 import shieldBashVideo from '../../../Assets/HeroInfo/videos/Shield_Bash.mp4'
 import rallyVideo from '../../../Assets/HeroInfo/videos/Rally.mp4'
 import inspireVideo from '../../../Assets/HeroInfo/videos/Inspire.mp4'
+
+// Ability Audio Clips
+import rocketFlailAudio from '../../../Assets/Sounds/HeroInfoPage/Rocket_Flail/RF_1.ogg'
+import repairPackAudio from '../../../Assets/Sounds/HeroInfoPage/Repair_Pack/RP_1.ogg'
+import whipShotAudio from '../../../Assets/Sounds/HeroInfoPage/Whip_Shot/WS_1.ogg'
+import rallyAudio1 from '../../../Assets/Sounds/HeroInfoPage/Rally/R_1.ogg'
+import rallyAudio2 from '../../../Assets/Sounds/HeroInfoPage/Rally/R_2.ogg'
+import rallyAudio3 from '../../../Assets/Sounds/HeroInfoPage/Rally/R_3.ogg'
 
 import './HeroInfoPage.css'
 
@@ -70,6 +88,26 @@ const abilityVideoMap = {
   Inspire: inspireVideo,
 }
 
+// Barrier Shield and Shield Bash have no audio clips yet; entries stay undefined until added.
+const abilityAudioMap = {
+  'Rocket Flail': rocketFlailAudio,
+  'Barrier Shield': undefined,
+  'Repair Pack': repairPackAudio,
+  'Whip Shot': whipShotAudio,
+  'Shield Bash': undefined,
+  Rally: [rallyAudio1, rallyAudio2, rallyAudio3],
+}
+
+// Per-ability audio flags, keyed by ability name so audio only plays when both switches are on.
+const abilityAudioFlagMap = {
+  'Rocket Flail': ROCKET_FLAIL_AUDIO_ENABLED,
+  'Barrier Shield': BARRIER_SHIELD_AUDIO_ENABLED,
+  'Repair Pack': REPAIR_PACK_AUDIO_ENABLED,
+  'Whip Shot': WHIP_SHOT_AUDIO_ENABLED,
+  'Shield Bash': SHIELD_BASH_AUDIO_ENABLED,
+  Rally: RALLY_AUDIO_ENABLED,
+}
+
 export function HeroInfoPage() {
   const [selectedTag, setSelectedTag] = useState(null)
   const [activeVideo, setActiveVideo] = useState(null)
@@ -82,16 +120,43 @@ export function HeroInfoPage() {
     }
   }, [activeVideo])
 
+  // Plays the matching ability clip(s) at 50% volume, once per tab session, when its card's video is opened.
+  // Multiple clips are played back to back in file-name order.
+  const playAbilityAudio = (name) => {
+    const isEnabled = HERO_INFO_ABILITY_AUDIO_ENABLED && Boolean(abilityAudioFlagMap[name])
+    const audioSrc = abilityAudioMap[name]
+    if (!isEnabled || !audioSrc) return
+
+    const sessionKey = `brigitteAbilityAudioPlayed_${name}`
+    if (sessionStorage.getItem(sessionKey) === 'true') return
+
+    const clips = Array.isArray(audioSrc) ? audioSrc : [audioSrc]
+
+    const playClipAt = (index) => {
+      if (index >= clips.length) return
+
+      const audio = playAudioExclusive(clips[index], 0.5)
+      audio.addEventListener('ended', () => playClipAt(index + 1))
+    }
+
+    playClipAt(0)
+    sessionStorage.setItem(sessionKey, 'true')
+  }
+
   const openAbilityVideo = (name) => {
     const src = abilityVideoMap[name]
     if (src) {
       setActiveVideo({ name, src })
       setIsVideoClosing(false)
+      playAbilityAudio(name)
     }
   }
 
   // Delay unmounting until the exit animation finishes.
-  const closeAbilityVideo = () => setIsVideoClosing(true)
+  const closeAbilityVideo = () => {
+    setIsVideoClosing(true)
+    stopCurrentAudio()
+  }
 
   useEffect(() => {
     if (!isVideoClosing) return
@@ -148,9 +213,9 @@ export function HeroInfoPage() {
       <section className="heroinfo-banner">
         <div className="heroinfo-banner-inner">
           <div className="heroinfo-meta-tags">
-            <span className="tag-pill">TACTICAL ARCHIVE</span>
+            <span className="tag-pill">TACTICAL ARCHIVE ID // BL-07</span>
             <span className="tag-pill">SYSTEM PROTOCOL 2.0</span>
-            <span className="tag-pill status-tag">CURRENT COMBAT SPEC</span>
+            <span className="tag-pill status-tag">CURRENT COMBAT SPECIFICATIONS</span>
           </div>
 
           <div className="heroinfo-title-row">
@@ -382,6 +447,9 @@ export function HeroInfoPage() {
               autoPlay
               loop
               playsInline
+              ref={(el) => {
+                if (el) el.volume = 0.25
+              }}
             />
           </div>
         </div>,

@@ -7,10 +7,20 @@ import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { RolePage } from './pages/RolePage/RolePage.jsx'
 import { HeroPage } from './pages/HeroPage/HeroPage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.jsx'
+import { ThankYouPage } from './pages/ThankYouPage/ThankYouPage.jsx'
 import { ROLE_LABELS, ROSTER_BY_ROLE } from './data/roster.js'
-import { FLASHY_PAGE_TRANSITIONS_ENABLED, PAGE_FADE_TRANSITIONS_ENABLED, INTERMEDIATE_TAB_ENABLED } from './data/flags.js'
+import { FLASHY_PAGE_TRANSITIONS_ENABLED, PAGE_FADE_TRANSITIONS_ENABLED, INTERMEDIATE_TAB_ENABLED, THANK_YOU_PAGE_AUDIO_ENABLED, HERO_INFO_PAGE_INTRO_AUDIO_ENABLED } from './data/flags.js'
+import { playAudioExclusive } from './utils/audioPlayer.js'
 import introSound from '../Assets/Sounds/IntroSound/Intro_Sound.mp3'
+import thankYouSound1 from '../Assets/Sounds/HeroInfoPage/ThankyouPage/TyP_1.ogg'
+import thankYouSound2 from '../Assets/Sounds/HeroInfoPage/ThankyouPage/TyP_2.ogg'
+import thankYouSound3 from '../Assets/Sounds/HeroInfoPage/ThankyouPage/TyP_3.ogg'
+import heroInfoIntroSound from '../Assets/Sounds/HeroInfoPage/HeroInfoPage/HIP_1.ogg'
 import rallyIcon from '../Assets/HeroInfo/icons/kit/Rally.webp'
+
+const thankYouSoundClips = [thankYouSound1, thankYouSound2, thankYouSound3]
+// Extra pause (ms) inserted before each clip index starts; keeps TyP_3 from following TyP_2 immediately.
+const thankYouClipDelays = [0, 0, 1500]
 
 const routeTitles = {
   '/': 'Brigitte Lindholm',
@@ -18,6 +28,7 @@ const routeTitles = {
   '/hero-info': 'Hero Information',
   '/basics': 'Playing Brigitte',
   '/intermediate': 'Intermediate Guides',
+  '/thank-you': 'Thank You',
 }
 
 // Resolves the tab title for routes that aren't in the static map above (e.g. /basics/*).
@@ -49,7 +60,8 @@ export default function App() {
     location.pathname === '/about' ||
     location.pathname === '/hero-info' ||
     location.pathname.startsWith('/basics') ||
-    location.pathname.startsWith('/intermediate')
+    location.pathname.startsWith('/intermediate') ||
+    location.pathname === '/thank-you'
   const previousPathRef = useRef(location.pathname)
   const [isPageTransitioning, setIsPageTransitioning] = useState(false)
   const [isIntermediateMenuOpen, setIsIntermediateMenuOpen] = useState(false)
@@ -96,16 +108,44 @@ export default function App() {
   useEffect(() => {
     const previousPath = previousPathRef.current
     const isAboutNavigation = location.pathname === '/about' && previousPath !== '/about'
+    const isThankYouNavigation = location.pathname === '/thank-you' && previousPath !== '/thank-you'
+    const isHeroInfoNavigation = location.pathname === '/hero-info' && previousPath !== '/hero-info'
 
     if (isAboutNavigation) {
       const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
       // const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'false'
 
       if (!hasPlayedAboutSound) {
-        const audio = new Audio(introSound)
-        audio.volume = 0.075 // volume control
-        audio.play().catch(() => {})
+        playAudioExclusive(introSound, 0.075) // volume control
         sessionStorage.setItem('brigitteAboutIntroPlayed', 'true')
+      }
+    }
+
+    if (isThankYouNavigation && THANK_YOU_PAGE_AUDIO_ENABLED) {
+      const hasPlayedThankYouSound = sessionStorage.getItem('brigitteThankYouIntroPlayed') === 'true'
+
+      if (!hasPlayedThankYouSound) {
+        // Play the clips back to back, in file-name order, honoring any per-clip delay.
+        const playClipAt = (index) => {
+          if (index >= thankYouSoundClips.length) return
+
+          setTimeout(() => {
+            const audio = playAudioExclusive(thankYouSoundClips[index], 0.5)
+            audio.addEventListener('ended', () => playClipAt(index + 1))
+          }, thankYouClipDelays[index] || 0)
+        }
+
+        playClipAt(0)
+        sessionStorage.setItem('brigitteThankYouIntroPlayed', 'true')
+      }
+    }
+
+    if (isHeroInfoNavigation && HERO_INFO_PAGE_INTRO_AUDIO_ENABLED) {
+      const hasPlayedHeroInfoIntroSound = sessionStorage.getItem('brigitteHeroInfoIntroPlayed') === 'true'
+
+      if (!hasPlayedHeroInfoIntroSound) {
+        playAudioExclusive(heroInfoIntroSound, 0.5)
+        sessionStorage.setItem('brigitteHeroInfoIntroPlayed', 'true')
       }
     }
 
@@ -135,6 +175,7 @@ export default function App() {
             <NavLink to="/about">About</NavLink>
             <NavLink to="/hero-info">Hero Info</NavLink>
             <NavLink to="/basics">Basics</NavLink>
+            <NavLink to="/thank-you">Thank You</NavLink>
             {INTERMEDIATE_TAB_ENABLED && (
               <div className="nav-dropdown" ref={intermediateMenuRef}>
                 <button
@@ -168,6 +209,7 @@ export default function App() {
           <Route path="/intermediate" element={<RolePage />} />
           <Route path="/intermediate/:role" element={<RolePage />} />
           <Route path="/intermediate/:role/:heroSlug" element={<HeroPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -1,4 +1,119 @@
 /* Home Page Styles */
+.sound-on-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(10, 20, 28, 0.25);
+  animation: sound-on-popup-backdrop-in 0.35s ease;
+}
+
+.sound-on-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.6rem;
+  background: linear-gradient(135deg, #19354a 0%, #1f4a63 55%, #d27a2c 160%);
+  color: #f4eee0;
+  border: 1px solid rgba(129, 179, 180, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(129, 179, 180, 0.15), 0 1rem 3rem rgba(0, 0, 0, 0.35), 0 0 2.5rem rgba(210, 122, 44, 0.35);
+  font-size: 1rem;
+  line-height: 1;
+  animation: sound-on-popup-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sound-on-popup-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  background: rgba(244, 238, 224, 0.15);
+  box-shadow: 0 0 0.9rem rgba(210, 122, 44, 0.6);
+  animation: sound-on-popup-pulse 1.6s ease-in-out infinite;
+}
+
+.sound-on-popup-text {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #f4eee0, #ffd9a8, #f4eee0);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sound-on-popup-shine 2.4s linear infinite;
+}
+
+.sound-on-popup-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.1rem;
+  margin-left: 0.3rem;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sound-on-popup-close:hover,
+.sound-on-popup-close:focus-visible {
+  color: #d27a2c;
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+@keyframes sound-on-popup-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes sound-on-popup-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sound-on-popup-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0.5rem rgba(210, 122, 44, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 1.4rem rgba(210, 122, 44, 0.9);
+    transform: scale(1.08);
+  }
+}
+
+@keyframes sound-on-popup-shine {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: 200% center;
+  }
+}
+
 .landing-hero {
   min-height: 44rem;
   padding: 1.6rem max(2rem, calc((100vw - 76rem) / 2)) 4rem;
@@ -123,6 +238,7 @@
   width: 1.3rem;
   height: 1.3rem;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .portrait-stage {
