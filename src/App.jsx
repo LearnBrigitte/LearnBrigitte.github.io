@@ -57,27 +57,10 @@ export default function App() {
     location.pathname.startsWith('/intermediate')
   const previousPathRef = useRef(location.pathname)
   const [isPageTransitioning, setIsPageTransitioning] = useState(false)
-  const [isIntermediateMenuOpen, setIsIntermediateMenuOpen] = useState(false)
-  const intermediateMenuRef = useRef(null)
 
   useEffect(() => {
     document.title = resolveDocumentTitle(location.pathname)
   }, [location.pathname])
-
-  useEffect(() => {
-    setIsIntermediateMenuOpen(false)
-  }, [location.pathname])
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (intermediateMenuRef.current && !intermediateMenuRef.current.contains(event.target)) {
-        setIsIntermediateMenuOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleOutsideClick)
-    return () => document.removeEventListener('mousedown', handleOutsideClick)
-  }, [])
 
   useEffect(() => {
     if (!FLASHY_PAGE_TRANSITIONS_ENABLED) {
@@ -136,25 +119,6 @@ export default function App() {
             <NavLink to="/about">About</NavLink>
             <NavLink to="/hero-info">Hero Info</NavLink>
             <NavLink to="/basics">Basics</NavLink>
-            <div className="nav-dropdown" ref={intermediateMenuRef}>
-              <button
-                type="button"
-                className={`nav-dropdown-trigger ${location.pathname.startsWith('/intermediate') ? 'active' : ''}`}
-                onClick={() => setIsIntermediateMenuOpen((open) => !open)}
-                aria-expanded={isIntermediateMenuOpen}
-                aria-haspopup="true"
-              >
-                Intermediate
-                <span className="nav-dropdown-caret">▾</span>
-              </button>
-              {isIntermediateMenuOpen && (
-                <div className="nav-dropdown-menu">
-                  <NavLink to="/intermediate/tanks">Tanks</NavLink>
-                  <NavLink to="/intermediate/dps">DPS</NavLink>
-                  <NavLink to="/intermediate/supports">Supports</NavLink>
-                </div>
-              )}
-            </div>
           </div>
         </nav>
       </header>
