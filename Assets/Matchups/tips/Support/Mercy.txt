@@ -1,0 +1,2 @@
+- Use Whip Shot to boop her away from the soul and cancel her Revive.
+- Use Rally to stun her out of Revive if Whip Shot is on cooldown.

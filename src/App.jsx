@@ -20,7 +20,7 @@ import rallyIcon from '../Assets/HeroInfo/icons/kit/Rally.webp'
 
 const thankYouSoundClips = [thankYouSound1, thankYouSound2, thankYouSound3]
 // Extra pause (ms) inserted before each clip index starts; keeps TyP_3 from following TyP_2 immediately.
-const thankYouClipDelays = [0, 0, 1500]
+const thankYouClipDelays = [0, 0, 1000]
 
 const routeTitles = {
   '/': 'Brigitte Lindholm',
@@ -65,6 +65,7 @@ export default function App() {
   const previousPathRef = useRef(location.pathname)
   const [isPageTransitioning, setIsPageTransitioning] = useState(false)
   const [isIntermediateMenuOpen, setIsIntermediateMenuOpen] = useState(false)
+  const [isThankYouIntroPlaying, setIsThankYouIntroPlaying] = useState(false)
   const intermediateMenuRef = useRef(null)
 
   useEffect(() => {
@@ -121,13 +122,22 @@ export default function App() {
       }
     }
 
+    if (previousPath === '/thank-you' && location.pathname !== '/thank-you') {
+      setIsThankYouIntroPlaying(false)
+    }
+
     if (isThankYouNavigation && THANK_YOU_PAGE_AUDIO_ENABLED) {
       const hasPlayedThankYouSound = sessionStorage.getItem('brigitteThankYouIntroPlayed') === 'true'
 
       if (!hasPlayedThankYouSound) {
+        setIsThankYouIntroPlaying(true)
+
         // Play the clips back to back, in file-name order, honoring any per-clip delay.
         const playClipAt = (index) => {
-          if (index >= thankYouSoundClips.length) return
+          if (index >= thankYouSoundClips.length) {
+            setIsThankYouIntroPlaying(false)
+            return
+          }
 
           setTimeout(() => {
             const audio = playAudioExclusive(thankYouSoundClips[index], 0.5)
@@ -175,7 +185,6 @@ export default function App() {
             <NavLink to="/about">About</NavLink>
             <NavLink to="/hero-info">Hero Info</NavLink>
             <NavLink to="/basics">Basics</NavLink>
-            <NavLink to="/thank-you">Thank You</NavLink>
             {INTERMEDIATE_TAB_ENABLED && (
               <div className="nav-dropdown" ref={intermediateMenuRef}>
                 <button
@@ -197,6 +206,7 @@ export default function App() {
                 )}
               </div>
             )}
+            <NavLink to="/thank-you">Thank You</NavLink>
           </div>
         </nav>
       </header>
@@ -209,7 +219,7 @@ export default function App() {
           <Route path="/intermediate" element={<RolePage />} />
           <Route path="/intermediate/:role" element={<RolePage />} />
           <Route path="/intermediate/:role/:heroSlug" element={<HeroPage />} />
-          <Route path="/thank-you" element={<ThankYouPage />} />
+          <Route path="/thank-you" element={<ThankYouPage isThankAthenaDisabled={isThankYouIntroPlaying} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

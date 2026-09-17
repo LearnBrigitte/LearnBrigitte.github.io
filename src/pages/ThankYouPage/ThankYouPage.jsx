@@ -1,10 +1,28 @@
+import { useEffect, useRef, useState } from 'react'
 import './ThankYouPage.css'
 import rallyIcon from '../../../Assets/HeroInfo/icons/kit/Rally.webp'
 import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { playAudioExclusive } from '../../utils/audioPlayer.js'
 import thankAthenaSound from '../../../Assets/Sounds/HeroInfoPage/ThankAthena/TA_1.ogg'
 
-export function ThankYouPage() {
+// Covers the longest staggered ring delay + duration in ThankYouPage.css.
+const BURST_ANIMATION_DURATION_MS = 1100
+
+export function ThankYouPage({ isThankAthenaDisabled = false }) {
+  const [isBursting, setIsBursting] = useState(false)
+  const wasDisabledRef = useRef(isThankAthenaDisabled)
+
+  useEffect(() => {
+    if (wasDisabledRef.current && !isThankAthenaDisabled) {
+      setIsBursting(true)
+      const timeoutId = setTimeout(() => setIsBursting(false), BURST_ANIMATION_DURATION_MS)
+      wasDisabledRef.current = isThankAthenaDisabled
+      return () => clearTimeout(timeoutId)
+    }
+
+    wasDisabledRef.current = isThankAthenaDisabled
+  }, [isThankAthenaDisabled])
+
   const playThankAthenaSound = () => {
     playAudioExclusive(thankAthenaSound, 0.5)
   }
@@ -37,12 +55,20 @@ export function ThankYouPage() {
 
           <button
             type="button"
-            className="thank-you-home-link"
+            className={`thank-you-home-link${isBursting ? ' thank-you-home-link-burst' : ''}`}
             aria-label="Click to thank Athena"
             title="Click to thank Athena"
             onClick={playThankAthenaSound}
+            disabled={isThankAthenaDisabled}
           >
             Thank Athena!
+            {isBursting && (
+              <span className="thank-you-burst-rings" aria-hidden="true">
+                <span className="thank-you-burst-ring" />
+                <span className="thank-you-burst-ring" />
+                <span className="thank-you-burst-ring" />
+              </span>
+            )}
           </button>
         </div>
       </section>

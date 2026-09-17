@@ -106,8 +106,8 @@ export function HomePage() {
       <section className="character-facts" aria-label="Brigitte at a glance">
         <div><span>ROLE</span><strong><img src={supportIcon} alt="" />Support</strong></div>
         <div><span>HOME</span><strong>Gothenburg</strong></div>
-        <div><span>CALLING</span><strong>Engineer</strong></div>
-        <div><span>LOYALTY</span><strong>Overwatch</strong></div>
+        {/* <div><span>CALLING</span><strong>Engineer</strong></div>
+        <div><span>LOYALTY</span><strong>Overwatch</strong></div> */}
       </section>
 
       <section className="authors" aria-labelledby="authors-title">

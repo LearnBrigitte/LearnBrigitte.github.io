@@ -7,7 +7,7 @@ export const FLASHY_PAGE_TRANSITIONS_ENABLED = true
 export const PAGE_FADE_TRANSITIONS_ENABLED = true
 
 // Controls whether the Intermediate nav tab/dropdown is shown.
-export const INTERMEDIATE_TAB_ENABLED = false
+export const INTERMEDIATE_TAB_ENABLED = true
 
 // Controls whether native video player controls show on ability demo videos.
 export const SHOW_VIDEO_CONTROLS = false

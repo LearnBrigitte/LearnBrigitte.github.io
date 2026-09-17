@@ -1,4 +1,4 @@
-/* Individual Hero Page - Basics Section (Placeholder Dossier) */
+/* Individual Hero Page - Matchup Guide */
 .herobasics-page {
   background: #f4eee0;
   min-height: 100vh;
@@ -9,6 +9,9 @@
   color: #f4eee0;
   padding: 6.5rem max(2rem, calc((100vw - 76rem) / 2)) 3.5rem;
   border-bottom: 3px solid #d27a2c;
+  background-image:
+    radial-gradient(circle at 85% 20%, rgba(129, 179, 180, 0.12) 0%, transparent 50%),
+    repeating-linear-gradient(90deg, transparent 0, transparent 4.9rem, rgba(129, 179, 180, 0.04) 4.9rem, rgba(129, 179, 180, 0.04) 5rem);
 }
 
 .herobasics-banner-inner {
@@ -42,7 +45,7 @@
 }
 
 .herobasics-main-title {
-  margin: 0;
+  margin: 0 0 1rem;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(2.6rem, 5.5vw, 4.4rem);
   line-height: 1;
@@ -75,10 +78,163 @@
   border-radius: 50%;
 }
 
+.herobasics-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.herobasics-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(244, 238, 224, 0.08);
+  border: 1px solid rgba(129, 179, 180, 0.35);
+  color: #81b3b4;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.herobasics-tag-pill:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+.herobasics-tag-pill.herobasics-role-tag {
+  background: linear-gradient(135deg, rgba(129, 179, 180, 0.28) 0%, rgba(129, 179, 180, 0.1) 100%);
+}
+
+.herobasics-tag-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.herobasics-tag-pill.herobasics-status-tag.is-ready {
+  border-color: #d27a2c;
+  color: #f4eee0;
+  background: linear-gradient(135deg, #e08a3a 0%, #d27a2c 100%);
+  box-shadow: 0 0 0.9rem rgba(210, 122, 44, 0.55), 0 0 0 1px rgba(210, 122, 44, 0.4);
+}
+
+.herobasics-tag-pill.herobasics-status-tag.is-ready .herobasics-tag-dot {
+  animation: heroTagPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes heroTagPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(244, 238, 224, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 0.3rem rgba(244, 238, 224, 0);
+  }
+}
+
+.herobasics-tag-pill.herobasics-status-tag.is-pending {
+  border: 1px dashed rgba(244, 238, 224, 0.35);
+  color: rgba(244, 238, 224, 0.55);
+  background: transparent;
+}
+
 .herobasics-content {
   max-width: 76rem;
   margin: 0 auto;
   padding: 3.5rem 2rem 5rem;
+}
+
+
+.herobasics-section {
+  margin-bottom: 3.5rem;
+}
+
+.herobasics-section:last-child {
+  margin-bottom: 0;
+}
+
+.herobasics-section-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #19354a;
+  transition: border-color 0.25s ease;
+}
+
+.herobasics-section-badge:hover {
+  border-color: #d27a2c;
+}
+
+.herobasics-section-badge span {
+  color: #d27a2c;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.herobasics-section-badge h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #19354a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.herobasics-tips-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.herobasics-tips-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid rgba(25, 53, 74, 0.12);
+  border-top: 3px solid #19354a;
+  padding: 1.25rem 1.4rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.herobasics-tips-list li:hover {
+  border-top-color: #d27a2c;
+  transform: translateY(-2px);
+}
+
+.herobasics-tip-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.herobasics-tip-number {
+  flex-shrink: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  color: #d27a2c;
+  line-height: 1;
+}
+
+.herobasics-tip-text {
+  color: #4a5c68;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.herobasics-tip-video {
+  width: 100%;
+  display: block;
+  background: #000;
 }
 
 .herobasics-placeholder {
@@ -102,3 +258,4 @@
   font-size: 0.95rem;
   line-height: 1.6;
 }
+
