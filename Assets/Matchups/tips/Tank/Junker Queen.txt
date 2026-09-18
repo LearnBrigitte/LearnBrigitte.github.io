@@ -1,2 +1,2 @@
-- Whip Shot away if she is trying to land an axe swing on you or a teammate.
-- Use Rally to cancel her ultimate, unless she has the Unstoppable perk.
+﻿You can use Whip Shot to create space if she is trying to land an axe swing on you or a teammate.
+- You can use Rally to cancel her ultimate, unless she has the Unstoppable perk.

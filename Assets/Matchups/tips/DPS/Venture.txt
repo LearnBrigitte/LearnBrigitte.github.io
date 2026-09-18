@@ -1,0 +1,2 @@
+﻿You can use Rally's Shield Bash to stun them when they are exiting Burrow.
+- You can use Shield Barrier to block the damage from their ultimate.

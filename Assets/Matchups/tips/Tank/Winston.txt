@@ -1,2 +1,2 @@
-- Use Whip Shot to deny him high ground.
-- Repair Pack can out heal his primary fire when he is attacking an teammate.
+﻿You can use Whip Shot to deny him high ground.
+- Use Repair Pack to outheal his primary fire when he is attacking a teammate.

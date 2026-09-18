@@ -1,2 +1,2 @@
-- Whip Shot her off high ground.
-- Use Shield Bash to stop B.O.B. from getting into a good position.
+﻿You can use Whip Shot to knock her off high ground.
+- You can use Shield Bash to stop B.O.B. from getting into a good position.

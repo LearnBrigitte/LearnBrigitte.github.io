@@ -1,14 +1,72 @@
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage.jsx'
 import { SiteFooter } from '../../components/SiteFooter.jsx'
 import { ROLE_LABELS, ROSTER_BY_ROLE } from '../../data/roster.js'
+import { HERO_PAGE_INTRO_AUDIO_ENABLED } from '../../data/flags.js'
+import { playAudioExclusive } from '../../utils/audioPlayer.js'
 import { getMatchupGuide } from '../../data/matchupGuides.js'
 import './HeroPage.css'
+
+const heroAudioModules = import.meta.glob(
+  // '../../../Assets/Sounds/HeroInfoPage/HeroPage/*/*.{ogg,mp3,wav}',
+  '../../../Assets/Matchups/Sounds/*/*.{ogg,mp3,wav}',
+  { eager: true, import: 'default' }
+)
+
+function normalizeHeroAudioKey(value) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+}
+
+const heroAudioByName = Object.entries(heroAudioModules).reduce((map, [path, src]) => {
+  const pathParts = path.split('/')
+  const fileName = pathParts[pathParts.length - 1]
+  const fileStem = fileName.replace(/\.[^.]+$/, '')
+  const folderName = pathParts[pathParts.length - 2]
+  const roleFolders = ['dps', 'support', 'tank']
+  const key = normalizeHeroAudioKey(
+    roleFolders.includes(folderName.toLowerCase()) ? fileStem : folderName
+  )
+
+  if (!map[key]) map[key] = []
+  map[key].push({ path, src })
+  return map
+}, {})
+
+Object.values(heroAudioByName).forEach((clips) => {
+  clips.sort((first, second) => first.path.localeCompare(second.path, undefined, { numeric: true }))
+})
+
+const HERO_AUDIO_SESSION_PREFIX = 'brigitteHeroPageIntroPlayed_'
 
 export function HeroPage() {
   const { role, heroSlug } = useParams()
   const heroes = ROSTER_BY_ROLE[role]
   const hero = heroes?.find((item) => item.slug === heroSlug)
+
+  useEffect(() => {
+    if (!hero || !HERO_PAGE_INTRO_AUDIO_ENABLED) return
+
+    const sessionKey = `${HERO_AUDIO_SESSION_PREFIX}${hero.slug}`
+    if (sessionStorage.getItem(sessionKey) === 'true') return
+
+    const clips = heroAudioByName[normalizeHeroAudioKey(hero.name)] || []
+    if (clips.length === 0) return
+
+    const playClipAt = (index) => {
+      if (index >= clips.length) return
+
+      const audio = playAudioExclusive(clips[index].src, 0.5)
+      audio.addEventListener('ended', () => playClipAt(index + 1))
+    }
+
+    playClipAt(0)
+    sessionStorage.setItem(sessionKey, 'true')
+  }, [hero])
 
   if (!hero) {
     return <NotFoundPage />
@@ -30,7 +88,7 @@ export function HeroPage() {
               <img src={hero.icon} alt="" className="herobasics-icon" />
             </span>
             <div>
-              <p className="herobasics-pretitle">Playing Brigitte vs.</p>
+              <p className="herobasics-pretitle">Brigitte tips for</p>
               <h1 className="herobasics-main-title">{hero.name}</h1>
               <div className="herobasics-meta-tags">
                 <span className="herobasics-tag-pill herobasics-role-tag">{roleLabel}</span>
@@ -87,7 +145,7 @@ export function HeroPage() {
             <div className="herobasics-placeholder">
               <p className="herobasics-placeholder-label">TIPS PENDING</p>
               <p>
-                Tips for fighting against {hero.name} as Brigitte have not been added yet.
+                Tips for {hero.name} have not been added yet.
                 Check back soon for counter-play strategies, positioning advice, and ability
                 trades to watch out for.
               </p>

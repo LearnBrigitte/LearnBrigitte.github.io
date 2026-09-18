@@ -1,2 +1,2 @@
-- Use Whip Shot to deny D.Va from securing high ground.
-- Use your Barrier Shield to block Self-Destruct damage, then use Rally to cancel her Remech.
+﻿You can use Whip Shot to deny D.Va from securing high ground.
+- You can use your Barrier Shield to block Self-Destruct damage, then use Rally to cancel her Remech.

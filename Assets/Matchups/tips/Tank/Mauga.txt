@@ -1,2 +1,2 @@
-- Use Whip Shot to keep Mauga away.
-- Use Rally to cancel his ultimate. If he manages to deploy Cage Fight, use your shield to block his bullets so he cannot get the self healing.
+﻿You can use Whip Shot to keep Mauga away.
+- You can use Rally to cancel his ultimate. If he manages to deploy Cage Fight, use your shield to block his bullets so he cannot get the self healing.

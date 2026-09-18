@@ -1,1 +1,2 @@
-- Use your Barrier Shield to block her tracking dart.
+﻿You can use your Barrier Shield to block her tracking dart.
+- You can use Barrier Shield to block the damage from her Tremor Charge.

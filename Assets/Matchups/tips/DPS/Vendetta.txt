@@ -1,2 +1,2 @@
-- Shield Bash into her Whirlwind Dash to stun her.
-- Use Whip Shot on her to make her miss her overhead attack.
+﻿You can Shield Bash into her Whirlwind Dash to stun her.
+- You can use Whip Shot on her to make her miss her overhead attack.

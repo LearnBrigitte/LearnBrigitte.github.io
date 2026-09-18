@@ -14,7 +14,7 @@ export function playAudioExclusive(src, volume = 1) {
   stopCurrentAudio()
 
   const audio = new Audio(src)
-  audio.volume = volume
+  audio.volume = volume / 1.5
   audio.play().catch(() => {})
   currentAudio = audio
 

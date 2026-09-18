@@ -45,10 +45,10 @@ function resolveDocumentTitle(pathname) {
       return 'Brigitte Lindholm'
     }
     if (!heroSlug) {
-      return `${roleLabel} // Intermediate`
+      return `${roleLabel}`
     }
     const hero = ROSTER_BY_ROLE[role]?.find((item) => item.slug === heroSlug)
-    return hero ? `${hero.name} // Intermediate` : 'Brigitte Lindholm'
+    return hero ? `${hero.name}` : 'Brigitte Lindholm'
   }
 
   return 'Brigitte Lindholm'
@@ -114,7 +114,6 @@ export default function App() {
 
     if (isAboutNavigation) {
       const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'true'
-      // const hasPlayedAboutSound = sessionStorage.getItem('brigitteAboutIntroPlayed') === 'false'
 
       if (!hasPlayedAboutSound) {
         playAudioExclusive(introSound, 0.075) // volume control

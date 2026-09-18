@@ -30,6 +30,9 @@ export const THANK_YOU_PAGE_AUDIO_ENABLED = true
 // Controls whether an intro audio clip plays when the user navigates to the Hero Info page.
 export const HERO_INFO_PAGE_INTRO_AUDIO_ENABLED = true
 
+// Controls whether a hero-specific intro clip plays when the user opens a Hero page.
+export const HERO_PAGE_INTRO_AUDIO_ENABLED = true
+
 // Master switch for ability audio playback on the Hero Info page.
 export const HERO_INFO_ABILITY_AUDIO_ENABLED = true
 

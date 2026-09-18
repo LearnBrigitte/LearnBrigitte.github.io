@@ -1,1 +1,1 @@
-- If you have Rally active, Shield Bash his ultimate to stun and cancel it.
+﻿If you have Rally active, you can use Shield Bash to stun him and cancel his ultimate.

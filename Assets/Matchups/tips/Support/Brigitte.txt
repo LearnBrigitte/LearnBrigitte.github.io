@@ -1,5 +1,5 @@
-- Your Rocket Flail reaches further towards the sides of your screen, so swing your camera if the target is just out of reach head on.
-- Jumping before using Shield Bash allows you to gain extra distance from the bash.
-- Jumping and using Shield Bash on an angled surface allows you to gain significant vertical height.
-- Shield Bashing into another Shield Bashing Brigitte stuns and knocks down both Brigittes.
+﻿Your Rocket Flail reaches further towards the sides of your screen, so swing your camera if the target is just out of reach head on.
+- Jump before using Shield Bash to gain extra distance from the bash.
+- Jump and use Shield Bash on an angled surface to gain significant vertical height.
+- Shield Bashing into another Shield Bashing Brigitte knocks down both Brigittes.
 - Using Rally rests the cooldown of Shield Bash.

@@ -1,3 +1,3 @@
-- Use your Barrier Shield to block his wall projectile.
-- Deploy your Barrier Shield and angle it 45 degrees or higher while facing Hazard to block his ultimate.
-- Use Rally to cancel his Ultimate.
+﻿You can use your Barrier Shield to block his wall projectile.
+- You can Deploy your Barrier Shield and angle it 45 degrees or higher while facing Hazard to block his ultimate.
+- You can use Rally to cancel his Ultimate.

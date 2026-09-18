@@ -1,1 +1,1 @@
-- Use corners to break line of sight and get his Discord Orb off you. He can't re-apply it for 6 seconds.
+﻿You can use corners to break line of sight and get his Discord Orb off you. He can't re-apply it on you for 6 seconds.
